@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "TicToc.h"
 
 namespace inner_network

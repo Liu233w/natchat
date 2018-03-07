@@ -44,10 +44,10 @@ namespace inner_network
 
 	}
 
-	void SendingManager::send(const char * address, int port, const char * buffer, size_t bufferSize)
+	void SendingManager::send(const char * address, int port, const char * buffer, size_t bufferSize, bool isFile)
 	{
 		std::lock_guard<std::mutex> lk(this->mut);
-		this->sendingQueue.emplace(address, port, buffer, bufferSize);
+		this->sendingQueue.emplace(new ConcurrentSender(address, port, buffer, bufferSize, isFile));
 		this->dataCond.notify_one();
 	}
 

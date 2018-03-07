@@ -9,8 +9,8 @@ namespace inner_network
 {
 
 	ConcurrentSender::ConcurrentSender(const char * address, const int port, const char * buffer, 
-		const size_t bufferSize, bool isSendingFile = false)
-		:address(address), port(port), bufferSize(bufferSize), isSendingFile(isSendingFile)
+		const size_t bufferSize, bool isSendingFile)
+		:address(address), port(port), bufferSize(bufferSize), _isSendingFile(isSendingFile)
 	{
 		this->buffer = new char[bufferSize];
 
@@ -53,7 +53,7 @@ namespace inner_network
 		sockaddr_in serAddr;
 		serAddr.sin_family = AF_INET;
 		serAddr.sin_port = htons(this->port);
-		serAddr.sin_addr.S_un.S_addr = inet_addr(this->address.c_str());
+		inet_pton(AF_INET, this->address.c_str(), (void *)&(serAddr.sin_addr));
 		if (connect(sclient, (sockaddr *)&serAddr, sizeof(serAddr)) == SOCKET_ERROR)
 		{
 			return false;

@@ -39,7 +39,7 @@ namespace inner_network
 		/// <returns></returns>
 		bool isSendingFile()
 		{
-			return this->isSendingFile;
+			return this->_isSendingFile;
 		}
 	private:
 		char* buffer;
@@ -47,7 +47,7 @@ namespace inner_network
 		std::future<bool> future;
 		std::string address;
 		int port;
-		bool isSendingFile;
+		bool _isSendingFile;
 
 		bool startSend();
 	};

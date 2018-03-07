@@ -78,7 +78,7 @@ void BroadcastMessageToIps(const char* message, const COLLECTION collection)
 	msg += message;
 	for (auto iter = collection.cbegin(); iter != collection.cend(); ++iter)
 	{
-		l_pSendingManager->send(*iter, MESSAGE_RECV_PORT, msg.c_str(), msg.size()));
+		l_pSendingManager->send(*iter, MESSAGE_RECV_PORT, msg.c_str(), msg.size());
 	}
 }
 
