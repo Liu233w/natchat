@@ -186,27 +186,39 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChatService.h" />
+    <ClInclude Include="ConcurrentSender.h" />
+    <ClInclude Include="MessageHeader.h" />
     <ClInclude Include="natchat.h" />
     <ClInclude Include="natchatDlg.h" />
     <ClInclude Include="PictureEx.h" />
     <ClInclude Include="PrivateMessageDlg.h" />
+    <ClInclude Include="ReceivingManager.h" />
     <ClInclude Include="RefreshingDlg.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SendingManager.h" />
+    <ClInclude Include="SocketException.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TicToc.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChatService.cpp" />
+    <ClCompile Include="ConcurrentSender.cpp" />
     <ClCompile Include="natchat.cpp" />
     <ClCompile Include="natchatDlg.cpp" />
     <ClCompile Include="PictureEx.cpp" />
     <ClCompile Include="PrivateMessageDlg.cpp" />
+    <ClCompile Include="ReceivingManager.cpp" />
     <ClCompile Include="RefreshingDlg.cpp" />
+    <ClCompile Include="SendingManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TicToc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="natchat.rc" />

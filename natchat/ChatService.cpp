@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ChatService.h"
 #include "MessageHeader.h"
+#include "ReceivingManager.h"
 
 #include <string>
 #include <winsock2.h>
@@ -14,8 +15,7 @@ void initNetworkAndThreads()
 	WSADATA wsaData;
 	if (WSAStartup(sockVersion, &wsaData) != 0)
 	{
-		MessageBox(AfxGetMainWnd()->m_hWnd, L"无法初始化 Socket", L"初始化错误", MB_OK);
-		exit(0);
+		printErrorAndExit(L"无法初始化 Socket");
 	}
 
 	// 初始化管理器
