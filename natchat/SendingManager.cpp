@@ -2,6 +2,7 @@
 #include "SendingManager.h"
 #include "SocketException.h"
 #include "Resource.h"
+#include "ChatService.h"
 
 namespace inner_network
 {
@@ -24,7 +25,7 @@ namespace inner_network
 				// 只有传输的是文件的时候才会发送通知
 				if (ptr->isSendingFile())
 				{
-					PostMessage(AfxGetMainWnd()->m_hWnd, IDC_SEND_FILE_DONE, 0, 0);
+					PostMessage(g_hHWnd, IDC_SEND_FILE_DONE, 0, 0);
 				}
 			}
 			catch (SocketException& e) 
@@ -33,11 +34,11 @@ namespace inner_network
 				if (ptr->isSendingFile())
 				{
 					// 防止引用失效，在发送此消息的时候阻塞线程，避免释放 SocketException 中的 string 内存
-					SendMessage(AfxGetMainWnd()->m_hWnd, IDC_SEND_FILE_ERROR, 0, msg);
+					SendMessage(g_hHWnd, IDC_SEND_FILE_ERROR, 0, msg);
 				}
 				else
 				{
-					SendMessage(AfxGetMainWnd()->m_hWnd, IDC_SEND_MESSAGE_ERROR, 0, msg);
+					SendMessage(g_hHWnd, IDC_SEND_MESSAGE_ERROR, 0, msg);
 				}
 			}
 		}

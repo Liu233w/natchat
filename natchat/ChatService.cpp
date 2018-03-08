@@ -67,6 +67,6 @@ void broadcastTic()
 
 void printErrorAndExit(const wchar_t* errMsg)
 {
-	MessageBox(AfxGetMainWnd()->m_hWnd, errMsg, L"初始化错误", MB_OK);
+	MessageBox(g_hHWnd, errMsg, L"初始化错误", MB_OK);
 	exit(0);
 }

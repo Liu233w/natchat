@@ -115,4 +115,4 @@ void printErrorAndExit(const wchar_t* errMsg);
 /// <summary>
 /// Ö÷´°¿Ú¾ä±ú
 /// </summary>
-HWND g_hHWnd = NULL;
+static HWND g_hHWnd = NULL;

@@ -165,6 +165,9 @@ BOOL CnatchatDlg::OnInitDialog()
 	M_IPList.InsertItem(20, _T("C++"));
 	M_IPList.SetItemText(20, 1, _T("192.168.1.4"));
 
+	// 存储主窗口句柄
+	g_hHWnd = AfxGetMainWnd()->m_hWnd;
+
 	initNetworkAndThreads();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE

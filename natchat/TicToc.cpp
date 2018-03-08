@@ -18,7 +18,7 @@ namespace inner_network
 
 		sendTocTo(ip);
 		// 保证内存安全，这里必须用 send
-		SendMessage(AfxGetMainWnd()->m_hWnd, IDC_RECEIVE_TIC, NULL, (LPARAM)ip);
+		SendMessage(g_hHWnd, IDC_RECEIVE_TIC, NULL, (LPARAM)ip);
 	}
 
 	void handleToc(std::string msg, const char * ip)
@@ -29,7 +29,7 @@ namespace inner_network
 		}
 
 		// 保证内存安全，这里必须用 send
-		SendMessage(AfxGetMainWnd()->m_hWnd, IDC_RECEIVE_TOC, NULL, (LPARAM)ip);
+		SendMessage(g_hHWnd, IDC_RECEIVE_TOC, NULL, (LPARAM)ip);
 	}
 
 	void startTicLoop(const int port)
@@ -69,7 +69,7 @@ namespace inner_network
 			//try to receive some data, this is a blocking call
 			if ((recv_len = recvfrom(s, buf, BUFLEN, 0, (struct sockaddr *) &si_other, &slen)) == SOCKET_ERROR)
 			{
-				PostMessage(AfxGetMainWnd()->m_hWnd, IDC_RECEIVE_TIC_ERROR, NULL, (LPARAM)"无法读取TIC数据");
+				PostMessage(g_hHWnd, IDC_RECEIVE_TIC_ERROR, NULL, (LPARAM)"无法读取TIC数据");
 				continue;
 			}
 
@@ -96,7 +96,7 @@ namespace inner_network
 
 	void sendBroadcastError(const char* msg)
 	{
-		SendMessage(AfxGetMainWnd()->m_hWnd, IDC_BROADCAST_TIC_ERROR, NULL, (LPARAM)msg);
+		SendMessage(g_hHWnd, IDC_BROADCAST_TIC_ERROR, NULL, (LPARAM)msg);
 	}
 
 	void broadcastTic(const int port)

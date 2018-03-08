@@ -80,7 +80,7 @@ namespace inner_network
 			sClient = accept(sListen, (SOCKADDR *)&remoteAddr, &nAddrlen);
 			if (sClient == INVALID_SOCKET)
 			{
-				PostMessage(AfxGetMainWnd()->m_hWnd, IDC_RECEIVE_MESSAGE_ERROR, 0, (LPARAM)"无法创建接收连接");
+				PostMessage(g_hHWnd, IDC_RECEIVE_MESSAGE_ERROR, 0, (LPARAM)"无法创建接收连接");
 			}
 
 			//接收数据
