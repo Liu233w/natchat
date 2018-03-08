@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ReceivingManager.h"
 #include "MessageHeader.h"
+#include "TicToc.h"
 
 #include "Resource.h"
 
@@ -44,22 +45,23 @@ namespace inner_network
 
 	void handleMessage(std::string msg, sockaddr_in addr)
 	{
+		// 获取ip
+		char ip_buf[20]; // 使用 inet_ntop 而不是 inet_ntoa 来保证安全
+		inet_ntop(AF_INET, &addr.sin_addr, ip_buf, sizeof(ip_buf));
+
 		if (msg[0] == MSG_REGULAR)
 		{
 			History history;
 			history.isPrivate = false;
 			history.message = msg.substr(1);
-			std::unique_lock<std::mutex> lk1(g_AllUserMutex);
-			char ip_buf[20]; // 使用 inet_ntop 而不是 inet_ntoa 来保证安全
-			inet_ntop(AF_INET, &addr.sin_addr, ip_buf, sizeof(ip_buf));
-			history.message = g_AllUser[ip_buf];
+			history.message = getUserNameFromIp(ip_buf);
 			history.time = std::chrono::system_clock::now();
-			std::unique_lock<std::mutex> lk2(g_HistoryMutex);
+			std::unique_lock<std::mutex> lk(g_HistoryMutex);
 			g_Histories.push_back(history);
 		}
 		else if (msg[0] == MSG_TIC)
 		{
-
+			handleTic(std::move(msg), ip_buf);
 		}
 	}
 

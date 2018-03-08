@@ -48,11 +48,21 @@ static std::mutex g_HistoryMutex;
 /// <summary>
 /// 所有的用户，key为ip，value为计算机名
 /// </summary>
-static std::map<std::string, std::string> g_AllUser;
+static std::map<std::string, std::string> l_AllUser;
 /// <summary>
 /// 对用户列表的锁
 /// </summary>
-static std::mutex g_AllUserMutex;
+static std::mutex l_AllUserMutex;
+
+/// <summary>
+/// 从 ip 地址获取计算机名（此过程会加锁）
+/// </summary>
+std::string getUserNameFromIp(const std::string& ip);
+
+/// <summary>
+/// 获取所有的用户（会加锁）。格式： ip，用户名
+/// </summary>
+std::vector<std::pair<std::string, std::string>> getUsers();
 
 static std::unique_ptr<inner_network::SendingManager> l_pSendingManager;
 
@@ -86,3 +96,8 @@ void BroadcastMessageToIps(const char* message, const COLLECTION collection)
 /// 初始化网络和线程，需要在主窗口的 Create 里面调用
 /// </summary>
 void initNetworkAndThreads();
+
+/// <summary>
+/// 广播消息，从而搜索其他主机
+/// </summary>
+void broadcastTic();

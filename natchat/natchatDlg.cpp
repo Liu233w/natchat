@@ -7,6 +7,8 @@
 #include "natchatDlg.h"
 #include "afxdialogex.h"
 
+#include "ChatService.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -163,6 +165,7 @@ BOOL CnatchatDlg::OnInitDialog()
 	M_IPList.InsertItem(20, _T("C++"));
 	M_IPList.SetItemText(20, 1, _T("192.168.1.4"));
 
+	initNetworkAndThreads();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }

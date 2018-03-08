@@ -10,7 +10,7 @@ namespace inner_network
 {
 	void broadcastTic();
 
-	void sendTocTo(const std::string ip);
+	void sendTocTo(const char *ip);
 
-	void handleTic(std::string msg, sockaddr_in addr);
+	void handleTic(std::string msg, const char* ip);
 }
