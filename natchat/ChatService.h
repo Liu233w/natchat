@@ -7,6 +7,8 @@
 #include <memory>
 #include <winsock2.h>
 #include <map>
+#include <locale>
+#include <codecvt>
 
 #include "SendingManager.h"
 #include "Resource.h"
@@ -104,7 +106,7 @@ void initNetworkAndThreads();
 /// <summary>
 /// 广播消息，从而搜索其他主机
 /// </summary>
-void broadcastTic();
+void refreshUserList();
 
 /// <summary>
 /// 生成错误对话框并退出程序
@@ -125,6 +127,7 @@ void sendFileToIp(const wchar_t *filePath, const wchar_t* distIp);
 /// cstring 转换为 string
 /// </summary>
 static void cstring2string(CString & src, std::string & dst) {
-	std::wstring wstr(src);
-	dst.assign(wstr.begin(), wstr.end());
+	wchar_t  * str = src.GetBuffer();
+	dst = std::wstring_convert<std::codecvt_utf8<wchar_t> >().to_bytes(str);
+	//dst.assign(wstr.begin(), wstr.end());
 }

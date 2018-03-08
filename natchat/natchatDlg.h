@@ -61,6 +61,9 @@ public:
 //	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg LRESULT OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam);
+protected:
+	afx_msg LRESULT OnReceiveToc(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnReceiveTic(WPARAM wParam, LPARAM lParam);
 };
 
 //void detect_cursor();

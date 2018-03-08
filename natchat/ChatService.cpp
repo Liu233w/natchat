@@ -31,7 +31,7 @@ void initNetworkAndThreads()
 	ReceivingManager::initReceivingManager(MESSAGE_RECV_PORT);
 
 	//TODO: …æµÙ’‚¿Ô
-	::broadcastTic();
+	::refreshUserList();
 }
 
 std::string getUserNameFromIp(const std::string& ip)
@@ -70,8 +70,12 @@ void SendMessageToIp(const char * message, const char * ip)
 	SendingManager::send(ip, MESSAGE_RECV_PORT, msg.c_str(), msg.size());
 }
 
-void broadcastTic()
+void refreshUserList()
 {
+	{
+		std::lock_guard<std::mutex> lk(l_AllUserMutex);
+		l_AllUser.clear();
+	}
 	std::thread ticThread(inner_network::broadcastTic, BROADCAST_RECV_PORT);
 	ticThread.detach();
 }
