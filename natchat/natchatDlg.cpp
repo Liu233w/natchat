@@ -6,6 +6,7 @@
 #include "natchat.h"
 #include "natchatDlg.h"
 #include "afxdialogex.h"
+#include <iomanip>
 
 #include "ChatService.h"
 
@@ -72,7 +73,11 @@ BEGIN_MESSAGE_MAP(CnatchatDlg, CDialogEx)
 	ON_WM_MOUSEMOVE()
 //	ON_WM_SETCURSOR()
 ON_BN_CLICKED(IDC_CHOOSEFILE, &CnatchatDlg::OnBnClickedChoosefile)
-ON_STN_CLICKED(IDC_SENDANI, &CnatchatDlg::OnStnClickedSendani)
+//ON_STN_CLICKED(IDC_SENDANI, &CnatchatDlg::OnStnClickedSendani)
+//ON_STN_CLICKED(IDC_EMOTIONANI, &CnatchatDlg::OnStnClickedEmotionani)
+//ON_WM_LBUTTONDBLCLK()
+ON_WM_LBUTTONDOWN()
+ON_COMMAND(IDC_RECOMMEND_REFRESH_HISTORIES, &CnatchatDlg::OnRecommendRefreshHistories)
 END_MESSAGE_MAP()
 
 
@@ -124,10 +129,10 @@ BOOL CnatchatDlg::OnInitDialog()
 	M_IPList.InsertColumn(1, _T("IP"), LVCFMT_CENTER, rect.Width() / 2, 1);
 
 	// 在列表视图控件中插入列表项，并设置列表子项文本   
-	M_IPList.InsertItem(0, _T("MYSELF"));
-	M_IPList.SetItemText(0, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(1, _T("LAPTOP"));
-	M_IPList.SetItemText(1, 1, _T("192.168.1.6"));
+	M_IPList.InsertItem(0, _T("LAPTOP"));
+	M_IPList.SetItemText(0, 1, _T("192.168.1.6"));
+	M_IPList.InsertItem(1, _T("DESKTOP"));
+	M_IPList.SetItemText(1, 1, _T("192.168.1.4"));
 
 	CRect send_rect;
 	GetDlgItem(IDC_SENDANI)->GetWindowRect(&send_rect);
@@ -332,8 +337,6 @@ void CnatchatDlg::OnMouseMove(UINT nFlags, CPoint point)
 		}
 	}
 	
-
-	
 	CDialogEx::OnMouseMove(nFlags, point);
 }
 
@@ -355,8 +358,63 @@ void CnatchatDlg::OnBnClickedChoosefile()
 }
 
 
-void CnatchatDlg::OnStnClickedSendani()
-{
-	// TODO: 在此添加控件通知处理程序代码
 
+void CnatchatDlg::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	GetDlgItem(IDC_SENDANI)->GetWindowRect(&send_rect);
+	ScreenToClient(&send_rect);
+	GetDlgItem(IDC_EMOTIONANI)->GetWindowRect(&emotion_rect);
+	ScreenToClient(&emotion_rect);
+	//POINT cur_point;
+	//GetCursorPos(&cur_point);
+
+	CString cur_edit_text;
+	GetDlgItemText(IDC_EDIT2, cur_edit_text);
+	std::wstring cur_edit_text_ws(cur_edit_text);
+	std::string cur_edit_text_s;
+	cur_edit_text_s.assign(cur_edit_text_ws.begin(), cur_edit_text_ws.end());
+
+	if (send_rect.PtInRect(point)) {
+		std::vector<char *> ip_list;
+		CString ip_cs;
+		int lineCount = M_IPList.GetItemCount();
+		char ip_ch[15];
+		for (int i = 0;i < lineCount; i++) {
+			ip_cs = M_IPList.GetItemText(i, 1);
+			std::string ip_s;
+			cstring2string(ip_cs, ip_s);
+			strcpy_s(ip_ch, ip_s.c_str());
+			ip_list.push_back(ip_ch);
+		}
+		BroadcastMessageToIps(cur_edit_text_s.c_str(), ip_list);
+	}
+	else if (emotion_rect.PtInRect(point)) {
+		MessageBox(L"emoji");
+	}
+	CDialogEx::OnLButtonDown(nFlags, point);
+}
+
+
+void CnatchatDlg::OnRecommendRefreshHistories()
+{
+	// TODO: 在此添加命令处理程序代码
+	std::lock_guard<std::mutex> lk(g_HistoryMutex);
+	CString show_txt;
+	std::list<History>::iterator h_itor;
+	h_itor = g_Histories.begin();
+	while (h_itor != g_Histories.end())
+	{
+		show_txt += (h_itor->senderName).c_str();
+		show_txt += " ";
+
+		std::time_t msg_time = std::chrono::system_clock::to_time_t(h_itor->time);
+		std::ctime(&msg_time);
+		show_txt += std::ctime(&msg_time);
+		show_txt += "\r\n";
+
+		show_txt += (h_itor->message).c_str();
+		show_txt += "\r\n";
+	}
+	SetDlgItemText(IDC_EDIT1, show_txt);
 }

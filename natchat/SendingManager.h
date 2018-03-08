@@ -32,7 +32,10 @@ namespace inner_network
 			:sendingThread(&SendingManager::startLoop, this)
 		{
 		}
-		~SendingManager() {}
+		~SendingManager() 
+		{
+			sendingThread.detach();
+		}
 
 		/// <summary>
 		/// 向指定目标发送数据（加入待发送队列）
