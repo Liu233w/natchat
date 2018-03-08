@@ -9,6 +9,6 @@ namespace inner_network
 	/// <summary>
 	/// 给某个ip发送path指定的文件（文件必须有访问权限）
 	/// </summary>
-	void sendFileToIp(std::string filePath, char* distIp);
+	void sendFileToIp(const wchar_t *filePath, const char* distIp);
 
 }

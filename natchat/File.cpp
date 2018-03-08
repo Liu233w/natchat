@@ -8,7 +8,7 @@
 
 namespace inner_network
 {
-	void sendFileToIp(std::string filePath, char* distIp)
+	void sendFileToIp(const wchar_t* filePath, const char* distIp)
 	{
 		std::ifstream fin(filePath, std::ios::in | std::ios::binary);
 		std::ostringstream os;

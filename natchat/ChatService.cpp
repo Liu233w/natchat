@@ -8,6 +8,7 @@
 #include <string>
 #include <winsock2.h>
 #include <thread>
+#include <comdef.h>
 
 using namespace inner_network;
 
@@ -79,8 +80,10 @@ void printErrorAndExit(const wchar_t* errMsg)
 	exit(0);
 }
 
-void sendFileToIp(std::string filePath, char* distIp)
+void sendFileToIp(const wchar_t *filePath, const wchar_t* distIp)
 {
-	std::thread sendFileThread(inner_network::sendFileToIp, std::move(filePath), distIp);
+	_bstr_t distIpB(distIp);
+	//inner_network::sendFileToIp(filePath, distIpB);
+	std::thread sendFileThread(inner_network::sendFileToIp, filePath, distIpB);
 	sendFileThread.detach();
 }
