@@ -2,6 +2,7 @@
 #include "ReceivingManager.h"
 #include "MessageHeader.h"
 #include "TicToc.h"
+#include "File.h"
 
 #include "Resource.h"
 
@@ -74,6 +75,11 @@ namespace inner_network
 				g_Histories.push_back(history);
 			}
 			PostMessage(g_hHWnd, WM_RECOMMEND_REFRESH_HISTORIES, NULL, NULL);
+		}
+		else if (msg[0] == MSG_FILE)
+		{
+			// 会阻塞接收线程直到保存完文件
+			handleFileMessage(msg);
 		}
 	}
 

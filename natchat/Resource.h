@@ -54,6 +54,11 @@
 /// </summary>
 #define WM_RECOMMEND_REFRESH_HISTORIES 1105
 /// <summary>
+/// 收到了一个文件时发送此消息。通过 LPARAM 传递一个 wchar_t* 作为文件名。
+/// 在修改完 g_wsSaveFilePath 之后（处理完消息），就能自动保存了。
+/// </summary>
+#define WM_RECEIVE_FILE					1106
+/// <summary>
 /// 接收到 TIC 的时候触发，建议刷新 User 列表
 /// </summary>
 #define WM_RECEIVE_TIC					1111

@@ -131,3 +131,8 @@ static void cstring2string(CString & src, std::string & dst) {
 	dst = std::wstring_convert<std::codecvt_utf8<wchar_t> >().to_bytes(str);
 	//dst.assign(wstr.begin(), wstr.end());
 }
+
+/// <summary>
+/// 保存文件的位置，在 File 命令的处理函数里面给这个变量赋值，函数结束之后就能将文件保存在这个位置了。
+/// </summary>
+extern std::wstring g_wsSaveFilePath;
