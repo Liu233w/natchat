@@ -116,3 +116,8 @@ void printErrorAndExit(const wchar_t* errMsg);
 /// 主窗口句柄
 /// </summary>
 static HWND g_hHWnd = NULL;
+
+/// <summary>
+/// 给某个ip发送path指定的文件（文件必须有访问权限）
+/// </summary>
+void sendFileToIp(std::string filePath, char* distIp);

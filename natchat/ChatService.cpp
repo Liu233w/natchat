@@ -3,6 +3,7 @@
 #include "MessageHeader.h"
 #include "ReceivingManager.h"
 #include "TicToc.h"
+#include "File.h"
 
 #include <string>
 #include <winsock2.h>
@@ -76,4 +77,10 @@ void printErrorAndExit(const wchar_t* errMsg)
 {
 	MessageBox(g_hHWnd, errMsg, L"≥ı ºªØ¥ÌŒÛ", MB_OK);
 	exit(0);
+}
+
+void sendFileToIp(std::string filePath, char* distIp)
+{
+	std::thread sendFileThread(inner_network::sendFileToIp, std::move(filePath), distIp);
+	sendFileThread.detach();
 }

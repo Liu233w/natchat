@@ -188,6 +188,7 @@
   <ItemGroup>
     <ClInclude Include="ChatService.h" />
     <ClInclude Include="ConcurrentSender.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="MessageHeader.h" />
     <ClInclude Include="natchat.h" />
     <ClInclude Include="natchatDlg.h" />
@@ -205,6 +206,7 @@
   <ItemGroup>
     <ClCompile Include="ChatService.cpp" />
     <ClCompile Include="ConcurrentSender.cpp" />
+    <ClCompile Include="File.cpp" />
     <ClCompile Include="natchat.cpp" />
     <ClCompile Include="natchatDlg.cpp" />
     <ClCompile Include="PictureEx.cpp" />
