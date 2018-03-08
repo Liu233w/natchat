@@ -29,14 +29,14 @@ void initNetworkAndThreads()
 
 std::string getUserNameFromIp(const std::string& ip)
 {
-	std::unique_lock<std::mutex> lk(l_AllUserMutex);
+	std::lock_guard<std::mutex> lk(l_AllUserMutex);
 	return l_AllUser[ip];
 }
 
 std::vector<std::pair<std::string, std::string>> getUsers()
 {
 	using namespace std;
-	unique_lock<mutex> lk(l_AllUserMutex);
+	lock_guard<mutex> lk(l_AllUserMutex);
 	using item_type = pair<string, string>;
 	vector<item_type> res;
 	res.reserve(l_AllUser.size());

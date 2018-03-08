@@ -12,7 +12,7 @@ namespace inner_network
 	void handleTic(std::string msg, const char* ip)
 	{
 		{
-			std::unique_lock<std::mutex> lk(l_AllUserMutex);
+			std::lock_guard<std::mutex> lk(l_AllUserMutex);
 			l_AllUser[ip] = msg.substr(1);
 		}
 

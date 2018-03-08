@@ -56,7 +56,7 @@ namespace inner_network
 			history.message = msg.substr(1);
 			history.message = getUserNameFromIp(ip_buf);
 			history.time = std::chrono::system_clock::now();
-			std::unique_lock<std::mutex> lk(g_HistoryMutex);
+			std::lock_guard<std::mutex> lk(g_HistoryMutex);
 			g_Histories.push_back(history);
 		}
 		else if (msg[0] == MSG_TIC)
