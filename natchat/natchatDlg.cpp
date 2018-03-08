@@ -72,6 +72,7 @@ BEGIN_MESSAGE_MAP(CnatchatDlg, CDialogEx)
 	ON_WM_MOUSEMOVE()
 //	ON_WM_SETCURSOR()
 ON_BN_CLICKED(IDC_CHOOSEFILE, &CnatchatDlg::OnBnClickedChoosefile)
+ON_STN_CLICKED(IDC_SENDANI, &CnatchatDlg::OnStnClickedSendani)
 END_MESSAGE_MAP()
 
 
@@ -125,31 +126,33 @@ BOOL CnatchatDlg::OnInitDialog()
 	// 在列表视图控件中插入列表项，并设置列表子项文本   
 	M_IPList.InsertItem(0, _T("MYSELF"));
 	M_IPList.SetItemText(0, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(1, _T("C"));
+	M_IPList.InsertItem(1, _T("LAPTOP"));
 	M_IPList.SetItemText(1, 1, _T("192.168.1.6"));
 
 	CRect send_rect;
 	GetDlgItem(IDC_SENDANI)->GetWindowRect(&send_rect);
 	ScreenToClient(&send_rect);
 	//send_animation.Create(NULL, WS_CHILD | WS_VISIBLE | SS_ENHMETAFILE, CRect(0, 0, 100, 100), this, 1234);
-	if (send_animation.Load(_T("F:\\code\\natchat\\natchat\\send.gif"))) {
+	if (send_animation.Load(_T(".\\send.gif"))) {
 		//refreshing_img.SetBkColor(RGB(255, 255, 255));
 		send_animation.SetPaintRect(&send_rect);
 		send_animation.MoveWindow(&send_rect, TRUE);
-		//send_animation.Draw();
-		//send_animation.Stop();
+		send_animation.Draw();
+		Sleep(10);
+		send_animation.Stop();
 	}
 
 	CRect emotion_rect;
 	GetDlgItem(IDC_EMOTIONANI)->GetWindowRect(&emotion_rect);
 	ScreenToClient(&emotion_rect);
 	//send_animation.Create(NULL, WS_CHILD | WS_VISIBLE | SS_ENHMETAFILE, CRect(0, 0, 100, 100), this, 1234);
-	if (emotion_animation.Load(_T("F:\\code\\natchat\\natchat\\emoji.gif"))) {
+	if (emotion_animation.Load(_T(".\\emoji.gif"))) {
 		//refreshing_img.SetBkColor(RGB(255, 255, 255));
 		emotion_animation.SetPaintRect(&emotion_rect);
 		emotion_animation.MoveWindow(&emotion_rect, TRUE);
-		//emotion_animation.Draw();
-		//emotion_animation.Stop();
+		emotion_animation.Draw();
+		Sleep(10);
+		emotion_animation.Stop();
 	}
 
 	// 存储主窗口句柄
@@ -349,4 +352,11 @@ void CnatchatDlg::OnBnClickedChoosefile()
 		strFile = dlgFile.GetPathName();
 		SetDlgItemText(IDC_SELECTEDFILE, strFile);
 	}
+}
+
+
+void CnatchatDlg::OnStnClickedSendani()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
 }
