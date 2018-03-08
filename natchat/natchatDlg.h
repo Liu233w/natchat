@@ -64,6 +64,9 @@ public:
 protected:
 	afx_msg LRESULT OnReceiveToc(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnReceiveTic(WPARAM wParam, LPARAM lParam);
+public:
+	CEdit show_history;
+	afx_msg void OnDestroy();
 };
 
 //void detect_cursor();

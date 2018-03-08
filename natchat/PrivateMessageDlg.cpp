@@ -60,7 +60,11 @@ void CPrivateMessageDlg::OnBnClickedCancel()
 void CPrivateMessageDlg::OnBnClickedSendprivate()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	//GetDlgItemText(IDC_)
-	//cstring2string()
-	//SendMessageToIp();
+	CString message;
+	GetDlgItemText(IDC_PRIVATEEDIT, message);
+	std::string msg, ip;
+	cstring2string(message, msg);
+	cstring2string(IP_adr, ip);
+	SendMessageToIp(msg.c_str(), ip.c_str());
+	EndDialog(0);
 }

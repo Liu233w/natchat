@@ -65,7 +65,7 @@ void SendMessageToIp(const char * message, const char * ip)
 {
 	std::string msg;
 	msg.reserve(strlen(message) + 1); // 留出一位来存放消息类型
-	msg[0] = inner_network::MSG_PRIVATE;
+	msg += inner_network::MSG_PRIVATE;
 	msg += message;
 	SendingManager::send(ip, MESSAGE_RECV_PORT, msg.c_str(), msg.size());
 }

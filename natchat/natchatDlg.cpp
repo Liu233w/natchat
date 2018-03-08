@@ -67,6 +67,7 @@ void CnatchatDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_IPLIST, M_IPList);
 	DDX_Control(pDX, IDC_SENDANI, send_animation);
 	DDX_Control(pDX, IDC_EMOTIONANI, emotion_animation);
+	DDX_Control(pDX, IDC_EDIT1, show_history);
 }
 
 BEGIN_MESSAGE_MAP(CnatchatDlg, CDialogEx)
@@ -86,6 +87,7 @@ ON_WM_LBUTTONDOWN()
 ON_MESSAGE(WM_RECOMMEND_REFRESH_HISTORIES, OnRecommendRefreshHistories)
 ON_MESSAGE(WM_RECEIVE_TOC, &CnatchatDlg::OnReceiveToc)
 ON_MESSAGE(WM_RECEIVE_TIC, &CnatchatDlg::OnReceiveTic)
+ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
@@ -430,6 +432,7 @@ LRESULT CnatchatDlg::OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam)
 		++h_itor;
 	}
 	SetDlgItemText(IDC_EDIT1, show_txt);
+	show_history.LineScroll(show_history.GetLineCount());
 	return 0;
 }
 
@@ -443,4 +446,12 @@ afx_msg LRESULT CnatchatDlg::OnReceiveToc(WPARAM wParam, LPARAM lParam)
 afx_msg LRESULT CnatchatDlg::OnReceiveTic(WPARAM wParam, LPARAM lParam)
 {
 	return 0;
+}
+
+
+void CnatchatDlg::OnDestroy()
+{
+	CDialogEx::OnDestroy();
+	exit(0);
+	// TODO: 在此处添加消息处理程序代码
 }
