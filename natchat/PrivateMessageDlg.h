@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ChatService.h"
 
 // CPrivateMessageDlg 对话框
 
@@ -9,7 +10,7 @@ class CPrivateMessageDlg : public CDialogEx
 
 public:
 	CPrivateMessageDlg(CWnd* pParent = NULL);   // 标准构造函数
-	CPrivateMessageDlg(const CString& title, CWnd* pParent = NULL);   // 标准构造函数
+	CPrivateMessageDlg(const CString& title, const CString& IP_adr,CWnd* pParent = NULL);   // 标准构造函数
 	virtual ~CPrivateMessageDlg();
 
 // 对话框数据
@@ -19,6 +20,7 @@ public:
 
 private:
 	CString mytitle;
+	CString IP_adr;
 
 protected:
 	virtual BOOL OnInitDialog();
@@ -28,4 +30,5 @@ protected:
 public:
 
 	afx_msg void OnBnClickedCancel();
+	afx_msg void OnBnClickedSendprivate();
 };

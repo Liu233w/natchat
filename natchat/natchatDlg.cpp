@@ -413,10 +413,15 @@ LRESULT CnatchatDlg::OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam)
 		show_txt += (h_itor->senderName).c_str();
 		show_txt += " ";
 
+		if (h_itor->isPrivate) {
+			show_txt += " send you a private message ";
+		}
+
 		std::time_t msg_time = std::chrono::system_clock::to_time_t(h_itor->time);
 		std::ctime(&msg_time);
+		show_txt += " at ";
 		show_txt += std::ctime(&msg_time);
-		show_txt += "\r\n";
+		show_txt += " : \r\n";
 
 		show_txt += (h_itor->message).c_str();
 		show_txt += "\r\n";
