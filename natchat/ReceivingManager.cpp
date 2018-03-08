@@ -60,7 +60,7 @@ namespace inner_network
 		}
 		else if (msg[0] == MSG_TOC)
 		{
-			handleToc(std::move(msg), ip_buf);
+			handleToc(msg, ip_buf);
 		}
 		else if (msg[0] == MSG_PRIVATE)
 		{

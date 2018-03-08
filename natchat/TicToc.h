@@ -31,5 +31,5 @@ namespace inner_network
 	/// <summary>
 	/// 处理 Toc 消息
 	/// </summary>
-	void handleToc(std::string msg, const char* ip);
+	void handleToc(const std::string &msg, const char* ip);
 }

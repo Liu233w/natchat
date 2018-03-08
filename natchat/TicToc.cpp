@@ -25,7 +25,7 @@ namespace inner_network
 		SendMessage(g_hHWnd, WM_RECEIVE_TIC, NULL, (LPARAM)ip);
 	}
 
-	void handleToc(std::string msg, const char * ip)
+	void handleToc(const std::string& msg, const char * ip)
 	{
 		{
 			std::lock_guard<std::mutex> lk(l_AllUserMutex);
