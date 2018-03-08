@@ -228,7 +228,10 @@
     <None Include="res\natchat.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="emoji.gif" />
+    <Image Include="loading.gif" />
     <Image Include="res\natchat.ico" />
+    <Image Include="send.gif" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -116,5 +116,14 @@
     <Image Include="res\natchat.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="emoji.gif">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="loading.gif">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="send.gif">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -152,7 +152,7 @@ BOOL CnatchatDlg::OnInitDialog()
 	GetDlgItem(IDC_SENDANI)->GetWindowRect(&send_rect);
 	ScreenToClient(&send_rect);
 	//send_animation.Create(NULL, WS_CHILD | WS_VISIBLE | SS_ENHMETAFILE, CRect(0, 0, 100, 100), this, 1234);
-	if (send_animation.Load(_T(".\\send.gif"))) {
+	if (send_animation.Load(MAKEINTRESOURCE(IDR_SEND), _T("Gif"))) {
 		//refreshing_img.SetBkColor(RGB(255, 255, 255));
 		send_animation.SetPaintRect(&send_rect);
 		send_animation.MoveWindow(&send_rect, TRUE);
@@ -165,7 +165,7 @@ BOOL CnatchatDlg::OnInitDialog()
 	GetDlgItem(IDC_EMOTIONANI)->GetWindowRect(&emotion_rect);
 	ScreenToClient(&emotion_rect);
 	//send_animation.Create(NULL, WS_CHILD | WS_VISIBLE | SS_ENHMETAFILE, CRect(0, 0, 100, 100), this, 1234);
-	if (emotion_animation.Load(_T(".\\emoji.gif"))) {
+	if (emotion_animation.Load(MAKEINTRESOURCE(IDR_EMOTION), _T("Gif"))) {
 		//refreshing_img.SetBkColor(RGB(255, 255, 255));
 		emotion_animation.SetPaintRect(&emotion_rect);
 		emotion_animation.MoveWindow(&emotion_rect, TRUE);
