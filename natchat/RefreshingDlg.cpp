@@ -5,7 +5,7 @@
 #include "natchat.h"
 #include "RefreshingDlg.h"
 #include "afxdialogex.h"
-
+#include "ChatService.h"
 
 // CRefreshingDlg ¶Ô»°¿ò
 
@@ -33,7 +33,9 @@ BOOL CRefreshingDlg::OnInitDialog() {
 		refreshing_img.Draw();
 	}
 
-	SetTimer(1, 5000, NULL);
+	refreshUserList();
+
+	SetTimer(1, 3000, NULL);
 	return TRUE;
 }
 

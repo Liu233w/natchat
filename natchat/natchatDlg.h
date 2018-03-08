@@ -67,6 +67,11 @@ protected:
 public:
 	CEdit show_history;
 	afx_msg void OnDestroy();
+	afx_msg void OnBnClickedSendfile();
+protected:
+	afx_msg LRESULT OnReceiveFile(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnSendFileDone(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnSendFileError(WPARAM wParam, LPARAM lParam);
 };
 
 //void detect_cursor();

@@ -91,7 +91,7 @@ namespace inner_network
 		SOCKET sClient;
 		sockaddr_in remoteAddr;
 		int nAddrlen = sizeof(remoteAddr);
-		char buffer[255];
+		char buffer[256];
 		while (true)
 		{
 			// µÈ´ýÁ¬½Ó

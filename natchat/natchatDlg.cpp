@@ -88,6 +88,10 @@ ON_MESSAGE(WM_RECOMMEND_REFRESH_HISTORIES, OnRecommendRefreshHistories)
 ON_MESSAGE(WM_RECEIVE_TOC, &CnatchatDlg::OnReceiveToc)
 ON_MESSAGE(WM_RECEIVE_TIC, &CnatchatDlg::OnReceiveTic)
 ON_WM_DESTROY()
+ON_BN_CLICKED(IDC_SENDFILE, &CnatchatDlg::OnBnClickedSendfile)
+ON_MESSAGE(WM_RECEIVE_FILE, &CnatchatDlg::OnReceiveFile)
+ON_MESSAGE(WM_SEND_FILE_DONE, &CnatchatDlg::OnSendFileDone)
+ON_MESSAGE(WM_SEND_FILE_ERROR, &CnatchatDlg::OnSendFileError)
 END_MESSAGE_MAP()
 
 
@@ -121,8 +125,8 @@ BOOL CnatchatDlg::OnInitDialog()
 	//  执行此操作
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
-
-	ShowWindow(SW_MINIMIZE);
+	this->SetWindowText(L"natchat");
+	//ShowWindow(SW_MINIMIZE);
 
 	// TODO: 在此添加额外的初始化代码
 	CDialogEx::SetBackgroundColor(RGB(255, 255, 255));
@@ -174,6 +178,8 @@ BOOL CnatchatDlg::OnInitDialog()
 	g_hHWnd = this->m_hWnd;
 
 	initNetworkAndThreads();
+
+	//refreshUserList();
 
 	//cursor_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(cursor_thread), NULL, 0, &myownthread);
 
@@ -282,6 +288,7 @@ void CnatchatDlg::OnBnClickedRefresh()
 	// TODO: 在此添加控件通知处理程序代码
 	CRefreshingDlg rfd;
 	rfd.DoModal();
+	//refreshUserList();
 }
 
 
@@ -417,7 +424,7 @@ LRESULT CnatchatDlg::OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam)
 		show_txt += " ";
 
 		if (h_itor->isPrivate) {
-			show_txt += " send you a private message ";
+			show_txt += " Send you a private message ";
 		}
 
 		std::time_t msg_time = std::chrono::system_clock::to_time_t(h_itor->time);
@@ -439,12 +446,34 @@ LRESULT CnatchatDlg::OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam)
 
 afx_msg LRESULT CnatchatDlg::OnReceiveToc(WPARAM wParam, LPARAM lParam)
 {
+	M_IPList.DeleteAllItems();
+	std::vector<std::pair<std::string, std::string> > user_list = getUsers();
+	std::vector<std::pair<std::string, std::string> >::iterator u_itor = user_list.begin();
+	while (u_itor != user_list.end()) {
+		int cur_row = M_IPList.GetItemCount();
+		std::string ip = u_itor->first;
+		std::string hostname = u_itor->second;
+		M_IPList.InsertItem(cur_row, CString((u_itor->second).c_str()));
+		M_IPList.SetItemText(cur_row, 1, CString((u_itor->first).c_str()));
+		++u_itor;
+	}
 	return 0;
 }
 
 
 afx_msg LRESULT CnatchatDlg::OnReceiveTic(WPARAM wParam, LPARAM lParam)
 {
+	M_IPList.DeleteAllItems();
+	std::vector<std::pair<std::string, std::string> > user_list = getUsers();
+	std::vector<std::pair<std::string, std::string> >::iterator u_itor = user_list.begin();
+	while (u_itor != user_list.end()) {
+		int cur_row = M_IPList.GetItemCount();
+		std::string ip = u_itor->first;
+		std::string hostname = u_itor->second;
+		M_IPList.InsertItem(cur_row, CString((u_itor->second).c_str()));
+		M_IPList.SetItemText(cur_row, 1, CString((u_itor->first).c_str()));
+		++u_itor;
+	}
 	return 0;
 }
 
@@ -454,4 +483,61 @@ void CnatchatDlg::OnDestroy()
 	CDialogEx::OnDestroy();
 	exit(0);
 	// TODO: 在此处添加消息处理程序代码
+}
+
+
+void CnatchatDlg::OnBnClickedSendfile()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CString rsv_ip, file_name, status;
+	GetDlgItemText(IDC_RECRIVERIP, rsv_ip);
+	GetDlgItemText(IDC_SELECTEDFILE, file_name);
+	if (rsv_ip == L"") {
+		MessageBox(L"Please select receiver!");
+		return;
+	}
+	else if (file_name == L"") {
+		MessageBox(L"Please select a file!");
+		return;
+	}
+	sendFileToIp(file_name, rsv_ip);
+	SetDlgItemText(IDC_STATUS, L"Sending file");
+	GetDlgItem(IDC_SENDFILE)->EnableWindow(FALSE);
+	GetDlgItem(IDC_CHOOSEFILE)->EnableWindow(FALSE);
+	SetDlgItemText(IDC_RECRIVERIP, L"");
+	SetDlgItemText(IDC_RECRIVERHOST, L"");
+	SetDlgItemText(IDC_SELECTEDFILE, L"");
+}
+
+
+afx_msg LRESULT CnatchatDlg::OnReceiveFile(WPARAM wParam, LPARAM lParam)
+{
+	if (IDYES == AfxMessageBox(_T("您收到一个文件，是否接收？"), MB_YESNO)) {
+		CFileDialog dlg(FALSE, _T("."), (wchar_t *)lParam);
+		if (dlg.DoModal() == IDOK)
+		{
+			CString strFile = dlg.GetPathName();//获取完整路径
+			g_wsSaveFilePath = strFile.GetString();
+		}
+	}
+	
+	return 0;
+}
+
+
+afx_msg LRESULT CnatchatDlg::OnSendFileDone(WPARAM wParam, LPARAM lParam)
+{
+	SetDlgItemText(IDC_STATUS, L"Finish sending file");
+	GetDlgItem(IDC_SENDFILE)->EnableWindow(TRUE);
+	GetDlgItem(IDC_CHOOSEFILE)->EnableWindow(TRUE);
+	return 0;
+}
+
+
+afx_msg LRESULT CnatchatDlg::OnSendFileError(WPARAM wParam, LPARAM lParam)
+{
+	SetDlgItemText(IDC_STATUS, L"Fail to send file");
+	GetDlgItem(IDC_SENDFILE)->EnableWindow(TRUE);
+	GetDlgItem(IDC_CHOOSEFILE)->EnableWindow(TRUE);
+	return 0;
 }
