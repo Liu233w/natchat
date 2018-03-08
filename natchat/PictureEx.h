@@ -300,6 +300,8 @@ protected:
 	//}}AFX_MSG
 	
 	DECLARE_MESSAGE_MAP()
+public:
+//	afx_msg void OnMouseLeave();
 };
 
 #endif // !defined(AFX_PICTUREEX_H__0EFE5DE0_7B68_4DB7_8B34_5DC634948438__INCLUDED_)

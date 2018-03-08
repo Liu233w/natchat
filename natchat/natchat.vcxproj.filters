@@ -48,10 +48,7 @@
     <ClInclude Include="ConcurrentSender.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SendingManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SocketException.h">
+    <ClInclude Include="File.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MessageHeader.h">
@@ -60,10 +57,13 @@
     <ClInclude Include="ReceivingManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="TicToc.h">
+    <ClInclude Include="SendingManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
+    <ClInclude Include="SocketException.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TicToc.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,16 +92,16 @@
     <ClCompile Include="ConcurrentSender.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SendingManager.cpp">
+    <ClCompile Include="File.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ReceivingManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TicToc.cpp">
+    <ClCompile Include="SendingManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="File.cpp">
+    <ClCompile Include="TicToc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

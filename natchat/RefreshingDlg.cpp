@@ -25,7 +25,7 @@ BOOL CRefreshingDlg::OnInitDialog() {
 	CRect rect;
 	GetDlgItem(IDC_REFRESHING)->GetWindowRect(&rect);
 	ScreenToClient(&rect);
-	refreshing_img.Create(NULL, WS_CHILD | WS_VISIBLE | SS_ENHMETAFILE, CRect(0,0,100,100), this, 1234);
+	refreshing_img.Create(NULL, WS_CHILD | WS_VISIBLE | SS_ENHMETAFILE, rect, this, 1234);
 	if (refreshing_img.Load(_T("F:\\code\\natchat\\natchat\\loading.gif"))) {
 		//refreshing_img.SetBkColor(RGB(255, 255, 255));
 		refreshing_img.SetPaintRect(&rect);

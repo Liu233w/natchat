@@ -218,6 +218,7 @@ BEGIN_MESSAGE_MAP(CPictureEx, CStatic)
 	ON_WM_DESTROY()
 	ON_WM_PAINT()
 	//}}AFX_MSG_MAP
+//	ON_WM_MOUSELEAVE()
 END_MESSAGE_MAP()
 
 BOOL CPictureEx::Load(HGLOBAL hGlobal, DWORD dwSize)
@@ -1293,3 +1294,10 @@ BOOL CPictureEx::GetPaintRect(RECT *lpRect)
 {
 	return CopyRect(lpRect, &m_PaintRect);
 }
+
+
+//void CPictureEx::OnMouseLeave()
+//{
+//	// TODO: 在此添加消息处理程序代码和/或调用默认值
+//	CStatic::OnMouseLeave();
+//}

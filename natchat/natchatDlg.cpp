@@ -13,7 +13,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
 class CAboutDlg : public CDialogEx
@@ -49,8 +48,6 @@ END_MESSAGE_MAP()
 
 // CnatchatDlg 对话框
 
-
-
 CnatchatDlg::CnatchatDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_NATCHAT_DIALOG, pParent)
 {
@@ -61,6 +58,8 @@ void CnatchatDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_IPLIST, M_IPList);
+	DDX_Control(pDX, IDC_SENDANI, send_animation);
+	DDX_Control(pDX, IDC_EMOTIONANI, emotion_animation);
 }
 
 BEGIN_MESSAGE_MAP(CnatchatDlg, CDialogEx)
@@ -70,6 +69,9 @@ BEGIN_MESSAGE_MAP(CnatchatDlg, CDialogEx)
 	ON_NOTIFY(NM_CLICK, IDC_IPLIST, &CnatchatDlg::OnNMClickIplist)
 	ON_NOTIFY(NM_DBLCLK, IDC_IPLIST, &CnatchatDlg::OnNMDblclkIplist)
 	ON_BN_CLICKED(IDC_REFRESH, &CnatchatDlg::OnBnClickedRefresh)
+	ON_WM_MOUSEMOVE()
+//	ON_WM_SETCURSOR()
+ON_BN_CLICKED(IDC_CHOOSEFILE, &CnatchatDlg::OnBnClickedChoosefile)
 END_MESSAGE_MAP()
 
 
@@ -107,6 +109,7 @@ BOOL CnatchatDlg::OnInitDialog()
 	ShowWindow(SW_MINIMIZE);
 
 	// TODO: 在此添加额外的初始化代码
+	CDialogEx::SetBackgroundColor(RGB(255, 255, 255));
 	CRect rect;
 
 	// 获取编程语言列表视图控件的位置和大小   
@@ -116,59 +119,45 @@ BOOL CnatchatDlg::OnInitDialog()
 	M_IPList.SetExtendedStyle(M_IPList.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
 	// 为列表视图控件添加三列   
-	M_IPList.InsertColumn(0, _T("HOST"), LVCFMT_CENTER, rect.Width() / 2, 0);
+	M_IPList.InsertColumn(0, _T("HOSTNAME"), LVCFMT_CENTER, rect.Width() / 2, 0);
 	M_IPList.InsertColumn(1, _T("IP"), LVCFMT_CENTER, rect.Width() / 2, 1);
 
 	// 在列表视图控件中插入列表项，并设置列表子项文本   
-	M_IPList.InsertItem(0, _T("Java"));
-	M_IPList.SetItemText(0, 1, _T("192.168.1.6"));
+	M_IPList.InsertItem(0, _T("MYSELF"));
+	M_IPList.SetItemText(0, 1, _T("192.168.1.4"));
 	M_IPList.InsertItem(1, _T("C"));
-	M_IPList.SetItemText(1, 1, _T("192.168.1.7"));
-	M_IPList.InsertItem(2, _T("C#"));
-	M_IPList.SetItemText(2, 1, _T("192.168.1.8"));
-	M_IPList.InsertItem(3, _T("C++"));
-	M_IPList.SetItemText(3, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(3, _T("C++"));
-	M_IPList.SetItemText(3, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(4, _T("C++"));
-	M_IPList.SetItemText(4, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(5, _T("C++"));
-	M_IPList.SetItemText(5, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(6, _T("C++"));
-	M_IPList.SetItemText(6, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(7, _T("C++"));
-	M_IPList.SetItemText(7, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(8, _T("C++"));
-	M_IPList.SetItemText(8, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(9, _T("C++"));
-	M_IPList.SetItemText(9, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(10, _T("C++"));
-	M_IPList.SetItemText(10, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(11, _T("C++"));
-	M_IPList.SetItemText(11, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(12, _T("C++"));
-	M_IPList.SetItemText(12, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(13, _T("C++"));
-	M_IPList.SetItemText(13, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(14, _T("C++"));
-	M_IPList.SetItemText(14, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(15, _T("C++"));
-	M_IPList.SetItemText(15, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(16, _T("C++"));
-	M_IPList.SetItemText(16, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(17, _T("C++"));
-	M_IPList.SetItemText(17, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(18, _T("C++"));
-	M_IPList.SetItemText(18, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(19, _T("C++"));
-	M_IPList.SetItemText(19, 1, _T("192.168.1.4"));
-	M_IPList.InsertItem(20, _T("C++"));
-	M_IPList.SetItemText(20, 1, _T("192.168.1.4"));
+	M_IPList.SetItemText(1, 1, _T("192.168.1.6"));
+
+	CRect send_rect;
+	GetDlgItem(IDC_SENDANI)->GetWindowRect(&send_rect);
+	ScreenToClient(&send_rect);
+	//send_animation.Create(NULL, WS_CHILD | WS_VISIBLE | SS_ENHMETAFILE, CRect(0, 0, 100, 100), this, 1234);
+	if (send_animation.Load(_T("F:\\code\\natchat\\natchat\\send.gif"))) {
+		//refreshing_img.SetBkColor(RGB(255, 255, 255));
+		send_animation.SetPaintRect(&send_rect);
+		send_animation.MoveWindow(&send_rect, TRUE);
+		//send_animation.Draw();
+		//send_animation.Stop();
+	}
+
+	CRect emotion_rect;
+	GetDlgItem(IDC_EMOTIONANI)->GetWindowRect(&emotion_rect);
+	ScreenToClient(&emotion_rect);
+	//send_animation.Create(NULL, WS_CHILD | WS_VISIBLE | SS_ENHMETAFILE, CRect(0, 0, 100, 100), this, 1234);
+	if (emotion_animation.Load(_T("F:\\code\\natchat\\natchat\\emoji.gif"))) {
+		//refreshing_img.SetBkColor(RGB(255, 255, 255));
+		emotion_animation.SetPaintRect(&emotion_rect);
+		emotion_animation.MoveWindow(&emotion_rect, TRUE);
+		//emotion_animation.Draw();
+		//emotion_animation.Stop();
+	}
 
 	// 存储主窗口句柄
 	g_hHWnd = AfxGetMainWnd()->m_hWnd;
 
 	initNetworkAndThreads();
+
+	//cursor_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(cursor_thread), NULL, 0, &myownthread);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -274,4 +263,90 @@ void CnatchatDlg::OnBnClickedRefresh()
 	// TODO: 在此添加控件通知处理程序代码
 	CRefreshingDlg rfd;
 	rfd.DoModal();
+}
+
+
+void CnatchatDlg::OnMouseMove(UINT nFlags, CPoint point)
+{
+	
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	GetDlgItem(IDC_SENDANI)->GetWindowRect(&send_rect);
+	//ScreenToClient(&send_rect);
+	GetDlgItem(IDC_EMOTIONANI)->GetWindowRect(&emotion_rect);
+	//ScreenToClient(&emotion_rect);
+	POINT cur_point;
+	GetCursorPos(&cur_point);
+	//ScreenToClient(&cur_point);
+
+	bool do_second_judge = true;
+
+	if (send_rect.PtInRect(cur_point))
+	{
+		if (!send_started_draw) {
+			send_animation.Draw();
+			send_started_draw = true;
+		}
+		//if (!is_cursor_hand) {
+			::SetCursor(LoadCursor(NULL, IDC_HAND));
+			is_cursor_hand = true;
+		//}
+		do_second_judge = false;
+	}
+	else {
+		if (send_started_draw) {
+			send_animation.Stop();
+			send_started_draw = false;
+		}
+		if (is_cursor_hand) {
+			::SetCursor(LoadCursor(NULL, IDC_ARROW));
+			is_cursor_hand = false;
+		}
+	}
+
+
+	if (do_second_judge) {
+		if (emotion_rect.PtInRect(cur_point))
+		{
+			if (!emotion_started_draw) {
+				emotion_animation.Draw();
+				emotion_started_draw = true;
+			}
+			if (!is_cursor_hand) {
+				::SetCursor(LoadCursor(NULL, IDC_HAND));
+				is_cursor_hand = true;
+			}
+		}
+		else {
+			if (emotion_started_draw) {
+				emotion_animation.Stop();
+				emotion_started_draw = false;
+			}
+			if (is_cursor_hand) {
+				::SetCursor(LoadCursor(NULL, IDC_ARROW));
+				is_cursor_hand = false;
+			}
+
+		}
+	}
+	
+
+	
+	CDialogEx::OnMouseMove(nFlags, point);
+}
+
+
+
+
+void CnatchatDlg::OnBnClickedChoosefile()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CString strFile = _T("");
+
+	CFileDialog dlgFile(TRUE, NULL, NULL, OFN_HIDEREADONLY, _T("All Files (*.*)|*.*||"), NULL);
+
+	if (dlgFile.DoModal())
+	{
+		strFile = dlgFile.GetPathName();
+		SetDlgItemText(IDC_SELECTEDFILE, strFile);
+	}
 }

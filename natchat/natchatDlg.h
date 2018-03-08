@@ -6,6 +6,7 @@
 #include "afxcmn.h"
 #include "PrivateMessageDlg.h"
 #include "RefreshingDlg.h"
+#include "afxwin.h"
 
 
 // CnatchatDlg ¶Ô»°¿ò
@@ -35,6 +36,13 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
+	//HANDLE cursor_thread;
+	//DWORD myownthread;
+	CRect send_rect;
+	CRect emotion_rect;
+	bool send_started_draw = false;
+	bool emotion_started_draw = false;
+	bool is_cursor_hand = false;
 	afx_msg void OnLbnSelchangeList1();
 	afx_msg void OnLbnSelchangeList2();
 	afx_msg void OnLvnItemchangedList2(NMHDR *pNMHDR, LRESULT *pResult);
@@ -43,4 +51,11 @@ public:
 	afx_msg void OnStnClickedReceivertext();
 	afx_msg void OnNMDblclkIplist(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedRefresh();
+	CPictureEx send_animation;
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+//	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+	CPictureEx emotion_animation;
+	afx_msg void OnBnClickedChoosefile();
 };
+
+//void detect_cursor();
