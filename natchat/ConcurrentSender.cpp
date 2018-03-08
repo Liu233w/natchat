@@ -3,7 +3,6 @@
 
 #include <cstdlib>
 #include <chrono>
-#include "SocketException.h"
 
 namespace inner_network
 {
@@ -16,12 +15,12 @@ namespace inner_network
 
 		memcpy(this->buffer, buffer, bufferSize);
 
-		this->future = std::async(std::launch::async, &ConcurrentSender::startSend, this);
+		this->future = std::async(&ConcurrentSender::startSend, this);
 	}
 
 	ConcurrentSender::~ConcurrentSender()
 	{
-		this->future.wait();
+		// this->future.wait();
 		if (this->buffer != nullptr)
 		{
 			delete this->buffer;
@@ -36,13 +35,9 @@ namespace inner_network
 		return status == std::future_status::ready;
 	}
 
-	void ConcurrentSender::waitDone()
+	bool ConcurrentSender::waitDone()
 	{
-		bool success = this->future.get();
-		if (!success)
-		{
-			throw SocketException("无法发送消息");
-		}
+		return this->future.get();
 	}
 
 	bool ConcurrentSender::startSend()
@@ -63,6 +58,7 @@ namespace inner_network
 		send(sclient, "\f", 1, 0);
 		
 		closesocket(sclient);
+		return true;
 	}
 
 }

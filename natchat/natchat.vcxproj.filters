@@ -60,9 +60,6 @@
     <ClInclude Include="SendingManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SocketException.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="TicToc.h">
       <Filter>头文件</Filter>
     </ClInclude>

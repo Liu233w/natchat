@@ -7,13 +7,12 @@
 
 namespace inner_network
 {
-	class ReceivingManager
+	namespace ReceivingManager
 	{
-		std::thread receivingThread;
+		static std::thread receivingThread;
 
 		void startReceivingLoop(SOCKET sListen);
-	public:
-		ReceivingManager(const int receivingPort);
-		~ReceivingManager();
+
+		void initReceivingManager(const int receivingPort);
 	};
 }

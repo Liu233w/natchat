@@ -40,20 +40,20 @@ struct History
 /// <summary>
 /// 所有消息的历史记录
 /// </summary>
-static std::list<History> g_Histories;
+extern std::list<History> g_Histories;
 /// <summary>
 /// 对历史记录的锁。在访问之前需要先锁定它，以防止并发争用
 /// </summary>
-static std::mutex g_HistoryMutex;
+extern std::mutex g_HistoryMutex;
 
 /// <summary>
 /// 所有的用户，key为ip，value为计算机名
 /// </summary>
-static std::map<std::string, std::string> l_AllUser;
+extern std::map<std::string, std::string> l_AllUser;
 /// <summary>
 /// 对用户列表的锁
 /// </summary>
-static std::mutex l_AllUserMutex;
+extern std::mutex l_AllUserMutex;
 
 /// <summary>
 /// 从 ip 地址获取计算机名（此过程会加锁）。如果计算机名不存在，直接返回 ip
@@ -64,8 +64,6 @@ std::string getUserNameFromIp(const std::string& ip);
 /// 获取所有的用户（会加锁）。格式： ip，用户名
 /// </summary>
 std::vector<std::pair<std::string, std::string>> getUsers();
-
-static std::unique_ptr<inner_network::SendingManager> l_pSendingManager;
 
 /// <summary>
 /// 接收消息的端口，向其他客户端发送消息时指定此端口
@@ -90,11 +88,11 @@ void BroadcastMessageToIps(const char* message, const COLLECTION collection)
 {
 	std::string msg;
 	msg.reserve(strlen(message) + 1); // 留出一位来存放消息类型
-	msg[0] = inner_network::MSG_REGULAR;
+	msg += inner_network::MSG_REGULAR;
 	msg += message;
 	for (auto iter = collection.cbegin(); iter != collection.cend(); ++iter)
 	{
-		l_pSendingManager->send(*iter, MESSAGE_RECV_PORT, msg.c_str(), msg.size());
+		inner_network::SendingManager::send(*iter, MESSAGE_RECV_PORT, msg.c_str(), msg.size());
 	}
 }
 
@@ -116,7 +114,7 @@ void printErrorAndExit(const wchar_t* errMsg);
 /// <summary>
 /// 主窗口句柄
 /// </summary>
-static HWND g_hHWnd = NULL;
+extern HWND g_hHWnd;
 
 /// <summary>
 /// 给某个ip发送path指定的文件（文件必须有访问权限）
@@ -126,7 +124,7 @@ void sendFileToIp(const wchar_t *filePath, const wchar_t* distIp);
 /// <summary>
 /// cstring 转换为 string
 /// </summary>
-void cstring2string(CString & src, std::string & dst) {
+static void cstring2string(CString & src, std::string & dst) {
 	std::wstring wstr(src);
 	dst.assign(wstr.begin(), wstr.end());
 }

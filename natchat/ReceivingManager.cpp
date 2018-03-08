@@ -9,7 +9,7 @@
 
 namespace inner_network
 {
-	ReceivingManager::ReceivingManager(const int receivingPort)
+	void ReceivingManager::initReceivingManager(const int receivingPort)
 	{
 		//创建套接字
 		SOCKET slisten = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -35,12 +35,7 @@ namespace inner_network
 		}
 
 		// 开始循环接收消息
-		receivingThread = std::thread(&ReceivingManager::startReceivingLoop, this, slisten);
-	}
-
-
-	ReceivingManager::~ReceivingManager()
-	{
+		ReceivingManager::receivingThread = std::thread(ReceivingManager::startReceivingLoop, slisten);
 	}
 
 	void handleMessage(std::string msg, sockaddr_in addr)

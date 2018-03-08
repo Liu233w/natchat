@@ -29,9 +29,9 @@ namespace inner_network
 		bool checkDone();
 
 		/// <summary>
-		/// 阻塞当前线程，直到完成传输。只能调用一次，否则抛出异常
+		/// 阻塞当前线程，直到完成传输。只能调用一次，否则抛出异常。如果运行成功，返回 true，否则返回 false
 		/// </summary>
-		void waitDone();
+		bool waitDone();
 
 		/// <summary>
 		/// 当前传输的是否是文件
