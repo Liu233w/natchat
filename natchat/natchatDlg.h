@@ -56,6 +56,7 @@ public:
 //	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 	CPictureEx emotion_animation;
 	afx_msg void OnBnClickedChoosefile();
+	afx_msg void OnStnClickedSendani();
 };
 
 //void detect_cursor();
