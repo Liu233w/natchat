@@ -24,7 +24,7 @@ namespace inner_network
 				// 只有传输的是文件的时候才会发送通知
 				if (ptr->isSendingFile())
 				{
-					PostMessage(g_hHWnd, IDC_SEND_FILE_DONE, 0, 0);
+					PostMessage(g_hHWnd, WM_SEND_FILE_DONE, 0, 0);
 				}
 
 			}
@@ -34,21 +34,21 @@ namespace inner_network
 				if (ptr->isSendingFile())
 				{
 					// 防止引用失效，在发送此消息的时候阻塞线程，避免释放 SocketException 中的 string 内存
-					SendMessage(g_hHWnd, IDC_SEND_FILE_ERROR, 0, msg);
+					SendMessage(g_hHWnd, WM_SEND_FILE_ERROR, 0, msg);
 				}
 				else
 				{
-					SendMessage(g_hHWnd, IDC_SEND_MESSAGE_ERROR, 0, msg);
+					SendMessage(g_hHWnd, WM_SEND_MESSAGE_ERROR, 0, msg);
 				}
 			}
 		}
 
 	}
 
-	void SendingManager::send(const char * address, int port, const char * buffer, size_t bufferSize, bool isFile)
+	void SendingManager::send(const std::string address, int port, const char * buffer, size_t bufferSize, bool isFile)
 	{
 		std::lock_guard<std::mutex> lk(SendingManager::mut);
-		SendingManager::sendingQueue.emplace(new ConcurrentSender(address, port, buffer, bufferSize, isFile));
+		SendingManager::sendingQueue.emplace(new ConcurrentSender(address.c_str(), port, buffer, bufferSize, isFile));
 		SendingManager::dataCond.notify_one();
 	}
 

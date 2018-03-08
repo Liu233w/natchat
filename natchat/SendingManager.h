@@ -39,7 +39,7 @@ namespace inner_network
 		/// <param name="port"></param>
 		/// <param name="buffer"></param>
 		/// <param name="bufferSize"></param>
-		void send(const char* address, int port, const char* buffer, size_t bufferSize, bool isFile = false);
+		void send(const std::string address, int port, const char* buffer, size_t bufferSize, bool isFile = false);
 	};
 
 }

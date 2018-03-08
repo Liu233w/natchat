@@ -36,6 +36,7 @@ namespace inner_network
 
 		// 开始循环接收消息
 		ReceivingManager::receivingThread = std::thread(ReceivingManager::startReceivingLoop, slisten);
+		receivingThread.detach();
 	}
 
 	void handleMessage(std::string msg, sockaddr_in addr)
@@ -55,7 +56,7 @@ namespace inner_network
 				std::lock_guard<std::mutex> lk(g_HistoryMutex);
 				g_Histories.push_back(history);
 			}
-			PostMessage(g_hHWnd, IDC_RECOMMEND_REFRESH_HISTORIES, NULL, NULL);
+			PostMessage(g_hHWnd, WM_RECOMMEND_REFRESH_HISTORIES, NULL, NULL);
 		}
 		else if (msg[0] == MSG_TOC)
 		{
@@ -72,7 +73,7 @@ namespace inner_network
 				std::lock_guard<std::mutex> lk(g_HistoryMutex);
 				g_Histories.push_back(history);
 			}
-			PostMessage(g_hHWnd, IDC_RECOMMEND_REFRESH_HISTORIES, NULL, NULL);
+			PostMessage(g_hHWnd, WM_RECOMMEND_REFRESH_HISTORIES, NULL, NULL);
 		}
 	}
 
@@ -91,7 +92,7 @@ namespace inner_network
 			sClient = accept(sListen, (SOCKADDR *)&remoteAddr, &nAddrlen);
 			if (sClient == INVALID_SOCKET)
 			{
-				PostMessage(g_hHWnd, IDC_RECEIVE_MESSAGE_ERROR, 0, (LPARAM)"无法创建接收连接");
+				PostMessage(g_hHWnd, WM_RECEIVE_MESSAGE_ERROR, 0, (LPARAM)"无法创建接收连接");
 			}
 
 			//接收数据

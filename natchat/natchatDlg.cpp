@@ -7,7 +7,8 @@
 #include "natchatDlg.h"
 #include "afxdialogex.h"
 #include <iomanip>
-
+#include <locale>
+#include <codecvt>
 #include "ChatService.h"
 
 #ifdef _DEBUG
@@ -82,7 +83,9 @@ ON_BN_CLICKED(IDC_CHOOSEFILE, &CnatchatDlg::OnBnClickedChoosefile)
 //ON_STN_CLICKED(IDC_EMOTIONANI, &CnatchatDlg::OnStnClickedEmotionani)
 //ON_WM_LBUTTONDBLCLK()
 ON_WM_LBUTTONDOWN()
-ON_MESSAGE(IDC_RECOMMEND_REFRESH_HISTORIES, OnRecommendRefreshHistories)
+ON_MESSAGE(WM_RECOMMEND_REFRESH_HISTORIES, OnRecommendRefreshHistories)
+ON_MESSAGE(WM_RECEIVE_TOC, &CnatchatDlg::OnReceiveToc)
+ON_MESSAGE(WM_RECEIVE_TIC, &CnatchatDlg::OnReceiveTic)
 END_MESSAGE_MAP()
 
 
@@ -134,10 +137,10 @@ BOOL CnatchatDlg::OnInitDialog()
 	M_IPList.InsertColumn(1, _T("IP"), LVCFMT_CENTER, rect.Width() / 2, 1);
 
 	// 在列表视图控件中插入列表项，并设置列表子项文本   
-	M_IPList.InsertItem(0, _T("LAPTOP"));
-	M_IPList.SetItemText(0, 1, _T("192.168.1.6"));
-	M_IPList.InsertItem(1, _T("DESKTOP"));
-	M_IPList.SetItemText(1, 1, _T("192.168.1.3"));
+	M_IPList.InsertItem(0, _T("DESKTOP"));
+	M_IPList.SetItemText(0, 1, _T("192.168.1.4"));
+	M_IPList.InsertItem(1, _T("LAPTOP"));
+	M_IPList.SetItemText(1, 1, _T("192.168.1.6"));
 
 	CRect send_rect;
 	GetDlgItem(IDC_SENDANI)->GetWindowRect(&send_rect);
@@ -259,12 +262,13 @@ void CnatchatDlg::OnNMDblclkIplist(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	// TODO: 在此添加控件通知处理程序代码
 	NMLISTVIEW *pNMListView = (NMLISTVIEW*)pNMHDR;
-	CString hostName;
+	CString hostName, IP_adr;
 	CString head = L"Private Message To ";
 
 	if (-1 != pNMListView->iItem) {
 		hostName = M_IPList.GetItemText(pNMListView->iItem, 0);
-		CPrivateMessageDlg pm(head + hostName + L":");
+		IP_adr = M_IPList.GetItemText(pNMListView->iItem, 1);
+		CPrivateMessageDlg pm(head + hostName + L":", IP_adr);
 		pm.DoModal();
 	}
 	*pResult = 0;
@@ -376,21 +380,18 @@ void CnatchatDlg::OnLButtonDown(UINT nFlags, CPoint point)
 
 	CString cur_edit_text;
 	GetDlgItemText(IDC_EDIT2, cur_edit_text);
-	std::wstring cur_edit_text_ws(cur_edit_text);
 	std::string cur_edit_text_s;
-	cur_edit_text_s.assign(cur_edit_text_ws.begin(), cur_edit_text_ws.end());
+	cstring2string(cur_edit_text, cur_edit_text_s);
 
 	if (send_rect.PtInRect(point)) {
-		std::vector<char *> ip_list;
+		std::vector<std::string> ip_list;
 		CString ip_cs;
 		int lineCount = M_IPList.GetItemCount();
-		char ip_ch[15];
 		for (int i = 0;i < lineCount; i++) {
 			ip_cs = M_IPList.GetItemText(i, 1);
 			std::string ip_s;
 			cstring2string(ip_cs, ip_s);
-			strcpy_s(ip_ch, ip_s.c_str());
-			ip_list.push_back(ip_ch);
+			ip_list.push_back(ip_s);
 		}
 		BroadcastMessageToIps(cur_edit_text_s.c_str(), ip_list);
 	}
@@ -413,15 +414,33 @@ LRESULT CnatchatDlg::OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam)
 		show_txt += (h_itor->senderName).c_str();
 		show_txt += " ";
 
+		if (h_itor->isPrivate) {
+			show_txt += " send you a private message ";
+		}
+
 		std::time_t msg_time = std::chrono::system_clock::to_time_t(h_itor->time);
 		std::ctime(&msg_time);
+		show_txt += " at ";
+		
 		show_txt += std::ctime(&msg_time);
-		show_txt += "\r\n";
+		show_txt += " : \r\n";
 
-		show_txt += (h_itor->message).c_str();
+		show_txt += std::wstring_convert<std::codecvt_utf8<wchar_t> >().from_bytes((h_itor->message).c_str()).c_str();;
 		show_txt += "\r\n";
 		++h_itor;
 	}
 	SetDlgItemText(IDC_EDIT1, show_txt);
+	return 0;
+}
+
+
+afx_msg LRESULT CnatchatDlg::OnReceiveToc(WPARAM wParam, LPARAM lParam)
+{
+	return 0;
+}
+
+
+afx_msg LRESULT CnatchatDlg::OnReceiveTic(WPARAM wParam, LPARAM lParam)
+{
 	return 0;
 }

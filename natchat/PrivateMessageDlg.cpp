@@ -16,10 +16,11 @@ CPrivateMessageDlg::CPrivateMessageDlg(CWnd* pParent /*=NULL*/)
 
 }
 
-CPrivateMessageDlg::CPrivateMessageDlg(const CString& title, CWnd* pParent /*=NULL*/)
+CPrivateMessageDlg::CPrivateMessageDlg(const CString& title, const CString& IP_adr, CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_SENDBOX, pParent)
 {
 	mytitle = title;
+	this->IP_adr = IP_adr;
 }
 
 CPrivateMessageDlg::~CPrivateMessageDlg()
@@ -42,6 +43,7 @@ void CPrivateMessageDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPrivateMessageDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CANCEL, &CPrivateMessageDlg::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_SENDPRIVATE, &CPrivateMessageDlg::OnBnClickedSendprivate)
 END_MESSAGE_MAP()
 
 
@@ -52,4 +54,13 @@ void CPrivateMessageDlg::OnBnClickedCancel()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	EndDialog(0);
+}
+
+
+void CPrivateMessageDlg::OnBnClickedSendprivate()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//GetDlgItemText(IDC_)
+	//cstring2string()
+	//SendMessageToIp();
 }
