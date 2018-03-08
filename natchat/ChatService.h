@@ -10,6 +10,7 @@
 
 #include "SendingManager.h"
 #include "Resource.h"
+#include "MessageHeader.h"
 
 #pragma comment(lib,"ws2_32.lib")
 
@@ -121,3 +122,11 @@ static HWND g_hHWnd = NULL;
 /// 给某个ip发送path指定的文件（文件必须有访问权限）
 /// </summary>
 void sendFileToIp(const wchar_t *filePath, const wchar_t* distIp);
+
+/// <summary>
+/// cstring 转换为 string
+/// </summary>
+void cstring2string(CString & src, std::string & dst) {
+	std::wstring wstr(src);
+	dst.assign(wstr.begin(), wstr.end());
+}

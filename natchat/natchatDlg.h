@@ -56,7 +56,11 @@ public:
 //	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 	CPictureEx emotion_animation;
 	afx_msg void OnBnClickedChoosefile();
-	afx_msg void OnStnClickedSendani();
+//	afx_msg void OnStnClickedSendani();
+//	afx_msg void OnStnClickedEmotionani();
+//	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnRecommendRefreshHistories();
 };
 
 //void detect_cursor();
