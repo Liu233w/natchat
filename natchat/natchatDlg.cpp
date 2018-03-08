@@ -14,6 +14,11 @@
 #define new DEBUG_NEW
 #endif
 
+// 声明全局变量
+HWND g_hHWnd;
+std::list<History> g_Histories;
+std::mutex g_HistoryMutex;
+
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
 class CAboutDlg : public CDialogEx
@@ -77,7 +82,7 @@ ON_BN_CLICKED(IDC_CHOOSEFILE, &CnatchatDlg::OnBnClickedChoosefile)
 //ON_STN_CLICKED(IDC_EMOTIONANI, &CnatchatDlg::OnStnClickedEmotionani)
 //ON_WM_LBUTTONDBLCLK()
 ON_WM_LBUTTONDOWN()
-ON_COMMAND(IDC_RECOMMEND_REFRESH_HISTORIES, &CnatchatDlg::OnRecommendRefreshHistories)
+ON_MESSAGE(IDC_RECOMMEND_REFRESH_HISTORIES, OnRecommendRefreshHistories)
 END_MESSAGE_MAP()
 
 
@@ -132,7 +137,7 @@ BOOL CnatchatDlg::OnInitDialog()
 	M_IPList.InsertItem(0, _T("LAPTOP"));
 	M_IPList.SetItemText(0, 1, _T("192.168.1.6"));
 	M_IPList.InsertItem(1, _T("DESKTOP"));
-	M_IPList.SetItemText(1, 1, _T("192.168.1.4"));
+	M_IPList.SetItemText(1, 1, _T("192.168.1.3"));
 
 	CRect send_rect;
 	GetDlgItem(IDC_SENDANI)->GetWindowRect(&send_rect);
@@ -161,7 +166,7 @@ BOOL CnatchatDlg::OnInitDialog()
 	}
 
 	// 存储主窗口句柄
-	g_hHWnd = AfxGetMainWnd()->m_hWnd;
+	g_hHWnd = this->m_hWnd;
 
 	initNetworkAndThreads();
 
@@ -396,7 +401,7 @@ void CnatchatDlg::OnLButtonDown(UINT nFlags, CPoint point)
 }
 
 
-void CnatchatDlg::OnRecommendRefreshHistories()
+LRESULT CnatchatDlg::OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam)
 {
 	// TODO: 在此添加命令处理程序代码
 	std::lock_guard<std::mutex> lk(g_HistoryMutex);
@@ -415,6 +420,8 @@ void CnatchatDlg::OnRecommendRefreshHistories()
 
 		show_txt += (h_itor->message).c_str();
 		show_txt += "\r\n";
+		++h_itor;
 	}
 	SetDlgItemText(IDC_EDIT1, show_txt);
+	return 0;
 }

@@ -7,6 +7,10 @@
 #include "Resource.h"
 #include "MessageHeader.h"
 
+// 声明全局变量
+std::map<std::string, std::string> l_AllUser;
+std::mutex l_AllUserMutex;
+
 namespace inner_network
 {
 	void handleTic(const char *msg, const char* ip)
@@ -91,7 +95,7 @@ namespace inner_network
 		int res = gethostname(bufferOut + 1, 127);
 		assert(res == 0);
 
-		l_pSendingManager->send(ip, MESSAGE_RECV_PORT, bufferOut, strlen(bufferOut));
+		SendingManager::send(ip, MESSAGE_RECV_PORT, bufferOut, strlen(bufferOut));
 	}
 
 	void sendBroadcastError(const char* msg)

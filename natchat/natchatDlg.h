@@ -60,7 +60,7 @@ public:
 //	afx_msg void OnStnClickedEmotionani();
 //	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnRecommendRefreshHistories();
+	afx_msg LRESULT OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam);
 };
 
 //void detect_cursor();

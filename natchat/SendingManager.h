@@ -11,29 +11,24 @@
 namespace inner_network
 {
 	/// <summary>
-	/// 管理Socket消息发送的类
+	/// 管理Socket消息发送
 	/// </summary>
-	class SendingManager
+	namespace SendingManager
 	{
-	private:
 		/// <summary>
 		/// 用来处理消息发送和队列管理的线程
 		/// </summary>
-		std::thread sendingThread;
+		static std::thread sendingThread;
 
-		mutable std::mutex mut;
-		std::queue<std::shared_ptr<ConcurrentSender>> sendingQueue;
-		std::condition_variable dataCond;
+		static std::mutex mut;
+		static std::queue<std::shared_ptr<ConcurrentSender>> sendingQueue;
+		static std::condition_variable dataCond;
 
 		void startLoop();
 
-	public:
-		SendingManager()
-			:sendingThread(&SendingManager::startLoop, this)
+		static void initSendingManager()
 		{
-		}
-		~SendingManager() 
-		{
+			sendingThread = std::thread(startLoop);
 			sendingThread.detach();
 		}
 

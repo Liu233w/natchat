@@ -23,10 +23,12 @@ void initNetworkAndThreads()
 	}
 
 	// 初始化管理器
-	l_pSendingManager = std::unique_ptr<SendingManager>(new SendingManager);
+	SendingManager::initSendingManager();
 
 	std::thread recvTicThread(inner_network::startTicLoop, BROADCAST_RECV_PORT);
 	recvTicThread.detach();
+
+	ReceivingManager::initReceivingManager(MESSAGE_RECV_PORT);
 
 	//TODO: 删掉这里
 	::broadcastTic();
@@ -65,7 +67,7 @@ void SendMessageToIp(const char * message, const char * ip)
 	msg.reserve(strlen(message) + 1); // 留出一位来存放消息类型
 	msg[0] = inner_network::MSG_PRIVATE;
 	msg += message;
-	l_pSendingManager->send(ip, MESSAGE_RECV_PORT, msg.c_str(), msg.size());
+	SendingManager::send(ip, MESSAGE_RECV_PORT, msg.c_str(), msg.size());
 }
 
 void broadcastTic()

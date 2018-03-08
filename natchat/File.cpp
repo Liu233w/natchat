@@ -17,7 +17,7 @@ namespace inner_network
 
 		std::string buf = os.str();
 
-		l_pSendingManager->send(distIp, MESSAGE_RECV_PORT, buf.c_str(), buf.size(), true);
+		SendingManager::send(distIp, MESSAGE_RECV_PORT, buf.c_str(), buf.size(), true);
 	}
 
 }
