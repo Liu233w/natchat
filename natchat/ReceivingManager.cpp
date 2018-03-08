@@ -54,7 +54,7 @@ namespace inner_network
 			History history;
 			history.isPrivate = false;
 			history.message = msg.substr(1);
-			history.message = getUserNameFromIp(ip_buf);
+			history.senderName = getUserNameFromIp(ip_buf);
 			history.time = std::chrono::system_clock::now();
 			{
 				std::lock_guard<std::mutex> lk(g_HistoryMutex);
@@ -71,7 +71,7 @@ namespace inner_network
 			History history;
 			history.isPrivate = true;
 			history.message = msg.substr(1);
-			history.message = getUserNameFromIp(ip_buf);
+			history.senderName = getUserNameFromIp(ip_buf);
 			history.time = std::chrono::system_clock::now();
 			{
 				std::lock_guard<std::mutex> lk(g_HistoryMutex);
