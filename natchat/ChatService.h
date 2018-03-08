@@ -55,7 +55,7 @@ static std::map<std::string, std::string> l_AllUser;
 static std::mutex l_AllUserMutex;
 
 /// <summary>
-/// 从 ip 地址获取计算机名（此过程会加锁）
+/// 从 ip 地址获取计算机名（此过程会加锁）。如果计算机名不存在，直接返回 ip
 /// </summary>
 std::string getUserNameFromIp(const std::string& ip);
 

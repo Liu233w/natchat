@@ -33,7 +33,14 @@ void initNetworkAndThreads()
 std::string getUserNameFromIp(const std::string& ip)
 {
 	std::lock_guard<std::mutex> lk(l_AllUserMutex);
-	return l_AllUser[ip];
+	try
+	{
+		return l_AllUser.at(ip);
+	}
+	catch(std::out_of_range)
+	{
+		return ip;
+	}
 }
 
 std::vector<std::pair<std::string, std::string>> getUsers()
