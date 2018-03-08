@@ -403,6 +403,7 @@ void CnatchatDlg::OnLButtonDown(UINT nFlags, CPoint point)
 			ip_list.push_back(ip_s);
 		}
 		BroadcastMessageToIps(cur_edit_text_s.c_str(), ip_list);
+		SetDlgItemText(IDC_EDIT2, L"");
 	}
 	else if (emotion_rect.PtInRect(point)) {
 		MessageBox(L"emoji");
@@ -424,7 +425,7 @@ LRESULT CnatchatDlg::OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam)
 		show_txt += " ";
 
 		if (h_itor->isPrivate) {
-			show_txt += " Send you a private message ";
+			show_txt += " Send you a private message";
 		}
 
 		std::time_t msg_time = std::chrono::system_clock::to_time_t(h_itor->time);
