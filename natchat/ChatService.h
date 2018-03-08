@@ -72,6 +72,11 @@ static std::unique_ptr<inner_network::SendingManager> l_pSendingManager;
 const int MESSAGE_RECV_PORT = 7001;
 
 /// <summary>
+/// 接收 udp 消息的端口，用于 TicToc
+/// </summary>
+const int BROADCAST_RECV_PORT = 7002;
+
+/// <summary>
 /// 向指定的 ip 单发消息
 /// </summary>
 void SendMessageToIp(const char* message, const char* ip);
@@ -101,3 +106,13 @@ void initNetworkAndThreads();
 /// 广播消息，从而搜索其他主机
 /// </summary>
 void broadcastTic();
+
+/// <summary>
+/// 生成错误对话框并退出程序
+/// </summary>
+void printErrorAndExit(const wchar_t* errMsg);
+
+/// <summary>
+/// 主窗口句柄
+/// </summary>
+HWND g_hHWnd = NULL;

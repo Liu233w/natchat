@@ -23,6 +23,9 @@ void initNetworkAndThreads()
 	// 初始化管理器
 	l_pSendingManager = std::unique_ptr<SendingManager>(new SendingManager);
 
+	std::thread recvTicThread(inner_network::startTicLoop, BROADCAST_RECV_PORT);
+	recvTicThread.detach();
+
 	//TODO: 删掉这里
 	::broadcastTic();
 }
@@ -58,6 +61,12 @@ void SendMessageToIp(const char * message, const char * ip)
 
 void broadcastTic()
 {
-	std::thread ticThread(inner_network::broadcastTic);
+	std::thread ticThread(inner_network::broadcastTic, BROADCAST_RECV_PORT);
 	ticThread.detach();
+}
+
+void printErrorAndExit(const wchar_t* errMsg)
+{
+	MessageBox(AfxGetMainWnd()->m_hWnd, errMsg, L"初始化错误", MB_OK);
+	exit(0);
 }

@@ -16,6 +16,4 @@ namespace inner_network
 		ReceivingManager(const int receivingPort);
 		~ReceivingManager();
 	};
-
-	void printErrorAndExit(const wchar_t* errMsg);
 }

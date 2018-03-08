@@ -59,9 +59,9 @@ namespace inner_network
 			std::lock_guard<std::mutex> lk(g_HistoryMutex);
 			g_Histories.push_back(history);
 		}
-		else if (msg[0] == MSG_TIC)
+		else if (msg[0] == MSG_TOC)
 		{
-			handleTic(std::move(msg), ip_buf);
+			handleToc(std::move(msg), ip_buf);
 		}
 	}
 
@@ -102,12 +102,6 @@ namespace inner_network
 
 			handleMessage(std::move(res), remoteAddr);
 		}
-	}
-
-	void printErrorAndExit(const wchar_t* errMsg)
-	{
-		MessageBox(AfxGetMainWnd()->m_hWnd, errMsg, L"³õÊ¼»¯´íÎó", MB_OK);
-		exit(0);
 	}
 
 }

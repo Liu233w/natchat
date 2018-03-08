@@ -41,6 +41,7 @@
 #define IDC_RECEIVE_TIC					1111
 #define IDC_RECEIVE_TOC					1112
 #define IDC_BROADCAST_TIC_ERROR			1113
+#define IDC_RECEIVE_TIC_ERROR			1114
 
 // Next default values for new objects
 // 
