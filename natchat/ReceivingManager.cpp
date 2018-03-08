@@ -66,6 +66,19 @@ namespace inner_network
 		{
 			handleToc(std::move(msg), ip_buf);
 		}
+		else if (msg[0] == MSG_PRIVATE)
+		{
+			History history;
+			history.isPrivate = true;
+			history.message = msg.substr(1);
+			history.message = getUserNameFromIp(ip_buf);
+			history.time = std::chrono::system_clock::now();
+			{
+				std::lock_guard<std::mutex> lk(g_HistoryMutex);
+				g_Histories.push_back(history);
+			}
+			PostMessage(g_hHWnd, IDC_RECOMMEND_REFRESH_HISTORIES, NULL, NULL);
+		}
 	}
 
 	void ReceivingManager::startReceivingLoop(SOCKET sListen)
