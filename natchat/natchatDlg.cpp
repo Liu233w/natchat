@@ -513,6 +513,7 @@ void CnatchatDlg::OnBnClickedSendfile()
 
 afx_msg LRESULT CnatchatDlg::OnReceiveFile(WPARAM wParam, LPARAM lParam)
 {
+	g_wsSaveFilePath = L"";
 	if (IDYES == AfxMessageBox(_T("您收到一个文件，是否接收？"), MB_YESNO)) {
 		CFileDialog dlg(FALSE, _T("."), (wchar_t *)lParam);
 		if (dlg.DoModal() == IDOK)
