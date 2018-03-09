@@ -125,6 +125,8 @@ namespace inner_network
 			}
 
 			handleMessage(std::move(res), remoteAddr);
+
+			closesocket(sClient);
 		}
 	}
 
