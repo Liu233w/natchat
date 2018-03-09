@@ -38,6 +38,7 @@ protected:
 public:
 	//HANDLE cursor_thread;
 	//DWORD myownthread;
+	HACCEL  m_hAccel;
 	CRect send_rect;
 	CRect emotion_rect;
 	bool send_started_draw = false;
@@ -72,6 +73,9 @@ protected:
 	afx_msg LRESULT OnReceiveFile(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnSendFileDone(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnSendFileError(WPARAM wParam, LPARAM lParam);
+public:
+	afx_msg void OnAcceleratorSend();
+	virtual BOOL PreTranslateMessage(MSG*  pMsg);
 };
 
 //void detect_cursor();

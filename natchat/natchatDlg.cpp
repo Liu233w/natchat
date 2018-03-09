@@ -92,6 +92,7 @@ ON_BN_CLICKED(IDC_SENDFILE, &CnatchatDlg::OnBnClickedSendfile)
 ON_MESSAGE(WM_RECEIVE_FILE, &CnatchatDlg::OnReceiveFile)
 ON_MESSAGE(WM_SEND_FILE_DONE, &CnatchatDlg::OnSendFileDone)
 ON_MESSAGE(WM_SEND_FILE_ERROR, &CnatchatDlg::OnSendFileError)
+ON_COMMAND(ID_ACCELERATOR_SEND, &CnatchatDlg::OnAcceleratorSend)
 END_MESSAGE_MAP()
 
 
@@ -178,6 +179,8 @@ BOOL CnatchatDlg::OnInitDialog()
 	g_hHWnd = this->m_hWnd;
 
 	initNetworkAndThreads();
+
+	m_hAccel = ::LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_SENDACC));
 
 	//refreshUserList();
 
@@ -542,4 +545,56 @@ afx_msg LRESULT CnatchatDlg::OnSendFileError(WPARAM wParam, LPARAM lParam)
 	GetDlgItem(IDC_SENDFILE)->EnableWindow(TRUE);
 	GetDlgItem(IDC_CHOOSEFILE)->EnableWindow(TRUE);
 	return 0;
+}
+
+
+void CnatchatDlg::OnAcceleratorSend()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+BOOL CnatchatDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (GetDlgItem(IDC_EDIT2) == GetFocus()) {
+		do
+		{
+			if (pMsg->message != WM_KEYDOWN)
+			{
+				break;
+			}
+			const SHORT l_cnKeyState = 0x8000;
+			if (l_cnKeyState != (GetKeyState(VK_CONTROL) & l_cnKeyState))
+			{
+				break;
+			}
+			if (pMsg->wParam == VK_RETURN)
+			{
+				CString cur_edit_text;
+				GetDlgItemText(IDC_EDIT2, cur_edit_text);
+				std::string cur_edit_text_s;
+				cstring2string(cur_edit_text, cur_edit_text_s);
+
+				std::vector<std::string> ip_list;
+				CString ip_cs;
+				int lineCount = M_IPList.GetItemCount();
+				for (int i = 0;i < lineCount; i++) {
+					ip_cs = M_IPList.GetItemText(i, 1);
+					std::string ip_s;
+					cstring2string(ip_cs, ip_s);
+					ip_list.push_back(ip_s);
+				}
+				BroadcastMessageToIps(cur_edit_text_s.c_str(), ip_list);
+				SetDlgItemText(IDC_EDIT2, L"");
+				return(TRUE);
+			}
+		} while (FALSE);
+		return   CDialog::PreTranslateMessage(pMsg);
+	}
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)// 屏蔽esc键  
+	{
+		return TRUE; 
+	}
+
+	
+	return   CDialog::PreTranslateMessage(pMsg);
 }

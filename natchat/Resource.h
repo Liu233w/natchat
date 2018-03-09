@@ -14,6 +14,7 @@
 #define IDR_LOADING                     136
 #define IDR_GIF3                        137
 #define IDR_SEND                        137
+#define IDR_SENDACC                     138
 #define IDC_RECRIVERHOST                1012
 #define IDC_IPLIST                      1013
 #define IDC_RECEIVERTEXT                1014
@@ -45,13 +46,14 @@
 #define WM_RECEIVE_TOC                  1112
 #define WM_BROADCAST_TIC_ERROR          1113
 #define WM_RECEIVE_TIC_ERROR            1114
+#define ID_ACCELERATOR_SEND             32771
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        138
-#define _APS_NEXT_COMMAND_VALUE         32771
+#define _APS_NEXT_RESOURCE_VALUE        139
+#define _APS_NEXT_COMMAND_VALUE         32773
 #define _APS_NEXT_CONTROL_VALUE         1034
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
