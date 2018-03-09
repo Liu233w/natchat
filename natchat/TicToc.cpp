@@ -103,7 +103,7 @@ namespace inner_network
 			{
 				char ip_buf[20]; // 使用 inet_ntop 而不是 inet_ntoa 来保证安全
 				inet_ntop(AF_INET, &si_other.sin_addr, ip_buf, sizeof(ip_buf));
-				handleTic(buf + 1, ip_buf);
+				handleTic(buf, ip_buf);
 			}
 		}
 
