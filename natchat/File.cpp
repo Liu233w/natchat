@@ -53,6 +53,9 @@ namespace inner_network
 		// 阻塞发送消息，这样就可以在主消息循环处理完文件位置之后直接返回并保存文件了。
 		SendMessage(g_hHWnd, WM_RECEIVE_FILE, NULL, (LPARAM)wFileName.c_str());
 
+		if (g_wsSaveFilePath.empty())
+			return; // 在主线程中将变量设为 “” 可以取消保存
+
 		std::ofstream out(g_wsSaveFilePath, std::ios::out | std::ios::binary);
 		out << message.substr(fileNameEnd + 1);
 	}
