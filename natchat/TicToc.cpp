@@ -115,7 +115,7 @@ namespace inner_network
 		char bufferOut[128];
 		bufferOut[0] = MSG_TOC;
 		int res = gethostname(bufferOut + 1, 127);
-		assert(res == 0);
+		//assert(res == 0);
 
 		SendingManager::send(ip, MESSAGE_RECV_PORT, bufferOut, strlen(bufferOut));
 	}
@@ -142,7 +142,7 @@ namespace inner_network
 		char bufferOut[128];
 		bufferOut[0] = MSG_TIC;
 		ret = gethostname(bufferOut + 1, 127);
-		assert(ret == 0);
+		//assert(ret == 0);
 
 		struct sockaddr_in addr;
 		memset(&addr, 0, sizeof(addr));
