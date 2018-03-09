@@ -510,8 +510,9 @@ afx_msg LRESULT CnatchatDlg::OnReceiveTic(WPARAM wParam, LPARAM lParam)
 void CnatchatDlg::OnDestroy()
 {
 	CDialogEx::OnDestroy();
+	sendByeToOthers();
+	Sleep(1000);
 	exit(0);
-	// TODO: 在此处添加消息处理程序代码
 }
 
 
