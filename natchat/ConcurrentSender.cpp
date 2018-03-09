@@ -42,6 +42,10 @@ namespace inner_network
 
 	bool ConcurrentSender::startSend()
 	{
+		WSADATA wsdata;
+		//Æô¶¯SOCKET¿â£¬°æ±¾Îª2.0  
+		WSAStartup(0x0202, &wsdata);
+
 		SOCKET sclient = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 		if (sclient == INVALID_SOCKET)
 			return false;

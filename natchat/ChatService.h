@@ -5,7 +5,7 @@
 #include <list>
 #include <algorithm>
 #include <memory>
-#include <winsock2.h>
+#include <WinSock2.h>
 #include <map>
 #include <locale>
 #include <codecvt>

@@ -85,6 +85,10 @@ namespace inner_network
 
 	void ReceivingManager::startReceivingLoop(SOCKET sListen)
 	{
+		WSADATA wsdata;
+		//启动SOCKET库，版本为2.0  
+		WSAStartup(0x0202, &wsdata);
+
 		std::string res;
 
 		//循环接收数据
