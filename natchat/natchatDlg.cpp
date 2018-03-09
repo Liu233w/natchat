@@ -396,6 +396,9 @@ void CnatchatDlg::OnLButtonDown(UINT nFlags, CPoint point)
 	cstring2string(cur_edit_text, cur_edit_text_s);
 
 	if (send_rect.PtInRect(point)) {
+		if (cur_edit_text == L"") {
+			return;
+		}
 		std::vector<std::string> ip_list;
 		CString ip_cs;
 		int lineCount = M_IPList.GetItemCount();
@@ -569,32 +572,39 @@ BOOL CnatchatDlg::PreTranslateMessage(MSG* pMsg)
 			}
 			if (pMsg->wParam == VK_RETURN)
 			{
-				CString cur_edit_text;
-				GetDlgItemText(IDC_EDIT2, cur_edit_text);
-				std::string cur_edit_text_s;
-				cstring2string(cur_edit_text, cur_edit_text_s);
-
-				std::vector<std::string> ip_list;
-				CString ip_cs;
-				int lineCount = M_IPList.GetItemCount();
-				for (int i = 0;i < lineCount; i++) {
-					ip_cs = M_IPList.GetItemText(i, 1);
-					std::string ip_s;
-					cstring2string(ip_cs, ip_s);
-					ip_list.push_back(ip_s);
-				}
-				BroadcastMessageToIps(cur_edit_text_s.c_str(), ip_list);
-				SetDlgItemText(IDC_EDIT2, L"");
+				send_group_message();
 				return(TRUE);
 			}
 		} while (FALSE);
 		return   CDialog::PreTranslateMessage(pMsg);
 	}
-	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)// ÆÁ±Îesc¼ü  
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
 	{
 		return TRUE; 
 	}
 
 	
 	return   CDialog::PreTranslateMessage(pMsg);
+}
+
+void CnatchatDlg::send_group_message() {
+	CString cur_edit_text;
+	GetDlgItemText(IDC_EDIT2, cur_edit_text);
+	if (cur_edit_text == L"") {
+		return;
+	}
+	std::string cur_edit_text_s;
+	cstring2string(cur_edit_text, cur_edit_text_s);
+
+	std::vector<std::string> ip_list;
+	CString ip_cs;
+	int lineCount = M_IPList.GetItemCount();
+	for (int i = 0;i < lineCount; i++) {
+		ip_cs = M_IPList.GetItemText(i, 1);
+		std::string ip_s;
+		cstring2string(ip_cs, ip_s);
+		ip_list.push_back(ip_s);
+	}
+	BroadcastMessageToIps(cur_edit_text_s.c_str(), ip_list);
+	SetDlgItemText(IDC_EDIT2, L"");
 }

@@ -62,9 +62,47 @@ void CPrivateMessageDlg::OnBnClickedSendprivate()
 	// TODO: 在此添加控件通知处理程序代码
 	CString message;
 	GetDlgItemText(IDC_PRIVATEEDIT, message);
+	if (message == L"") return;
 	std::string msg, ip;
 	cstring2string(message, msg);
 	cstring2string(IP_adr, ip);
 	SendMessageToIp(msg.c_str(), ip.c_str());
 	EndDialog(0);
+}
+
+BOOL CPrivateMessageDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (GetDlgItem(IDC_PRIVATEEDIT) == GetFocus()) {
+		do
+		{
+			if (pMsg->message != WM_KEYDOWN)
+			{
+				break;
+			}
+			const SHORT l_cnKeyState = 0x8000;
+			if (l_cnKeyState != (GetKeyState(VK_CONTROL) & l_cnKeyState))
+			{
+				break;
+			}
+			if (pMsg->wParam == VK_RETURN)
+			{
+				CString message;
+				GetDlgItemText(IDC_PRIVATEEDIT, message);
+				if (message == L"") break;
+				std::string msg, ip;
+				cstring2string(message, msg);
+				cstring2string(IP_adr, ip);
+				SendMessageToIp(msg.c_str(), ip.c_str());
+				return(TRUE);
+			}
+		} while (FALSE);
+		return   CDialog::PreTranslateMessage(pMsg);
+	}
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
+	{
+		return TRUE;
+	}
+
+
+	return   CDialog::PreTranslateMessage(pMsg);
 }

@@ -76,6 +76,7 @@ protected:
 public:
 	afx_msg void OnAcceleratorSend();
 	virtual BOOL PreTranslateMessage(MSG*  pMsg);
+	void send_group_message();
 };
 
 //void detect_cursor();
