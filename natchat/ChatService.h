@@ -141,3 +141,8 @@ extern std::wstring g_wsSaveFilePath;
 /// 设定消息的结尾
 /// </summary>
 static const char* MESSAGE_END = "\r\n--/\fEndMsg\f/--\r\n";
+
+/// <summary>
+/// 向其他所有客户端发送 Bye 消息，从他们的列表中删除本机
+/// </summary>
+void sendByeToOthers();

@@ -97,3 +97,14 @@ void sendFileToIp(const wchar_t *filePath, const wchar_t* distIp)
 	std::thread sendFileThread(inner_network::sendFileToIp, filePath, distIpB);
 	sendFileThread.detach();
 }
+
+void sendByeToOthers()
+{
+	char bye[1];
+	bye[0] = inner_network::MSG_BYE;
+	std::lock_guard<std::mutex> lk(l_AllUserMutex);
+	for (auto item : l_AllUser)
+	{
+		SendingManager::send(item.first, MESSAGE_RECV_PORT, bye, 1, false);
+	}
+}

@@ -81,6 +81,17 @@ namespace inner_network
 			// 会阻塞接收线程直到保存完文件
 			handleFileMessage(msg);
 		}
+		else if (msg[0] == MSG_BYE)
+		{
+			// 某个客户端退出了列表，现在可以删除此客户端
+			std::lock_guard<std::mutex> lk(l_AllUserMutex);
+			const auto iter = l_AllUser.find(ip_buf);
+			if (iter != l_AllUser.end())
+			{
+				l_AllUser.erase(iter);
+				PostMessage(g_hHWnd, WM_RECEIVE_TIC, NULL, NULL);
+			}
+		}
 	}
 
 	void ReceivingManager::startReceivingLoop(SOCKET sListen)

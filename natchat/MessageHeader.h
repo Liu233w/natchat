@@ -11,5 +11,5 @@ namespace inner_network
 	// 下面的两个消息用于客户端检测中
 	constexpr char MSG_TIC = 0x11; // 点击刷新按钮的客户端群发此消息
 	constexpr char MSG_TOC = 0x12; // 收到上个消息的客户端向目标发送此消息
-
+	constexpr char MSG_BYE = 0x13; // 退出时给其他客户端发送此消息
 }
