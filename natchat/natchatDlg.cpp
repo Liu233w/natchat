@@ -9,7 +9,10 @@
 #include <iomanip>
 #include <locale>
 #include <codecvt>
+#include <iostream>
+#include <fstream>
 #include "ChatService.h"
+#include "emojiDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -92,7 +95,6 @@ ON_BN_CLICKED(IDC_SENDFILE, &CnatchatDlg::OnBnClickedSendfile)
 ON_MESSAGE(WM_RECEIVE_FILE, &CnatchatDlg::OnReceiveFile)
 ON_MESSAGE(WM_SEND_FILE_DONE, &CnatchatDlg::OnSendFileDone)
 ON_MESSAGE(WM_SEND_FILE_ERROR, &CnatchatDlg::OnSendFileError)
-ON_COMMAND(ID_ACCELERATOR_SEND, &CnatchatDlg::OnAcceleratorSend)
 END_MESSAGE_MAP()
 
 
@@ -180,8 +182,22 @@ BOOL CnatchatDlg::OnInitDialog()
 
 	initNetworkAndThreads();
 
-	m_hAccel = ::LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_SENDACC));
+	FILE *fStream = NULL;
+	errno_t e = _tfopen_s(&fStream,
+		_T("emoji.data"), _T("rt,ccs=UTF-8")); // or ccs=UTF-8
+	if (e != 0) {
+		MessageBox(L"Open resource file fail.");
+		return -1; // failed..CString sRead;
+	}
 
+	CStdioFile fFile(fStream);
+	CString readline;
+	while (fFile.ReadString(readline))
+	{
+		emoji_vec.push_back(readline);
+	}
+
+	fFile.Close();
 	//refreshUserList();
 
 	//cursor_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(cursor_thread), NULL, 0, &myownthread);
@@ -412,7 +428,16 @@ void CnatchatDlg::OnLButtonDown(UINT nFlags, CPoint point)
 		SetDlgItemText(IDC_EDIT2, L"");
 	}
 	else if (emotion_rect.PtInRect(point)) {
-		MessageBox(L"emoji");
+		emojiDlg edl;
+		if (edl.DoModal() == IDOK) {
+			CEdit* edit_m = (CEdit*)GetDlgItem(IDC_EDIT2);
+			int start_pos, end_pos;
+			edit_m->GetSel(start_pos,end_pos);
+			CString left = cur_edit_text.Left(start_pos);
+			CString right = cur_edit_text.Right(cur_edit_text.GetLength() - end_pos);
+			SetDlgItemText(IDC_EDIT2, left + sel_emoji + right);
+		}
+		save_emoji_to_local();
 	}
 	CDialogEx::OnLButtonDown(nFlags, point);
 }
@@ -458,8 +483,6 @@ afx_msg LRESULT CnatchatDlg::OnReceiveToc(WPARAM wParam, LPARAM lParam)
 	std::vector<std::pair<std::string, std::string> >::iterator u_itor = user_list.begin();
 	while (u_itor != user_list.end()) {
 		int cur_row = M_IPList.GetItemCount();
-		std::string ip = u_itor->first;
-		std::string hostname = u_itor->second;
 		M_IPList.InsertItem(cur_row, CString((u_itor->second).c_str()));
 		M_IPList.SetItemText(cur_row, 1, CString((u_itor->first).c_str()));
 		++u_itor;
@@ -475,8 +498,6 @@ afx_msg LRESULT CnatchatDlg::OnReceiveTic(WPARAM wParam, LPARAM lParam)
 	std::vector<std::pair<std::string, std::string> >::iterator u_itor = user_list.begin();
 	while (u_itor != user_list.end()) {
 		int cur_row = M_IPList.GetItemCount();
-		std::string ip = u_itor->first;
-		std::string hostname = u_itor->second;
 		M_IPList.InsertItem(cur_row, CString((u_itor->second).c_str()));
 		M_IPList.SetItemText(cur_row, 1, CString((u_itor->first).c_str()));
 		++u_itor;
@@ -607,4 +628,26 @@ void CnatchatDlg::send_group_message() {
 	}
 	BroadcastMessageToIps(cur_edit_text_s.c_str(), ip_list);
 	SetDlgItemText(IDC_EDIT2, L"");
+}
+
+void CnatchatDlg::save_emoji_to_local() {
+	FILE *fStream = NULL;
+	errno_t e = _tfopen_s(&fStream,
+		_T("emoji.data"), _T("wt,ccs=UTF-8")); // or ccs=UTF-8
+	if (e != 0) return; // failed..CString sRead;
+
+	CStdioFile mFile(fStream);
+	std::vector<CString>::iterator e_itor = emoji_vec.begin();
+	while (e_itor != emoji_vec.end()) {
+		try
+		{
+			mFile.WriteString((*e_itor) + L"\n");
+		}
+		catch (CException* e)
+		{
+			e->ReportError();
+		}
+		++e_itor;
+	}
+	mFile.Close();
 }

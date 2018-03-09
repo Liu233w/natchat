@@ -77,6 +77,7 @@ public:
 	afx_msg void OnAcceleratorSend();
 	virtual BOOL PreTranslateMessage(MSG*  pMsg);
 	void send_group_message();
+	void save_emoji_to_local();
 };
 
 //void detect_cursor();

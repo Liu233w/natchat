@@ -34,6 +34,9 @@
 
 
 #include <afxsock.h>            // MFC Ì×½Ó×ÖÀ©Õ¹
+#include <afxcontrolbars.h>
+#include <afxcontrolbars.h>
+#include <afxcontrolbars.h>
 
 
 

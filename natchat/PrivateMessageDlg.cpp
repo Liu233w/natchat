@@ -93,6 +93,7 @@ BOOL CPrivateMessageDlg::PreTranslateMessage(MSG* pMsg)
 				cstring2string(message, msg);
 				cstring2string(IP_adr, ip);
 				SendMessageToIp(msg.c_str(), ip.c_str());
+				EndDialog(0);
 				return(TRUE);
 			}
 		} while (FALSE);

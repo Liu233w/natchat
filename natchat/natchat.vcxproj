@@ -24,6 +24,7 @@
     <RootNamespace>natchat</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
     <Keyword>MFCProj</Keyword>
+    <ProjectName>natchat</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -186,10 +187,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="addemojiDlg.h" />
     <ClInclude Include="ChatService.h" />
     <ClInclude Include="ConcurrentSender.h" />
+    <ClInclude Include="emojiDlg.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="MessageHeader.h" />
+    <ClInclude Include="modiftEmoji.h" />
     <ClInclude Include="natchat.h" />
     <ClInclude Include="natchatDlg.h" />
     <ClInclude Include="PictureEx.h" />
@@ -203,9 +207,12 @@
     <ClInclude Include="TicToc.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="addemojiDlg.cpp" />
     <ClCompile Include="ChatService.cpp" />
     <ClCompile Include="ConcurrentSender.cpp" />
+    <ClCompile Include="emojiDlg.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="modiftEmoji.cpp" />
     <ClCompile Include="natchat.cpp" />
     <ClCompile Include="natchatDlg.cpp" />
     <ClCompile Include="PictureEx.cpp" />

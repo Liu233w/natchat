@@ -15,6 +15,9 @@
 #define IDR_GIF3                        137
 #define IDR_SEND                        137
 #define IDR_SENDACC                     138
+#define IDD_EMOJI                       139
+#define IDD_EMOJIADDDLG                 141
+#define IDD_MODIFYEMOJIDLG              143
 #define IDC_RECRIVERHOST                1012
 #define IDC_IPLIST                      1013
 #define IDC_RECEIVERTEXT                1014
@@ -36,6 +39,13 @@
 #define IDC_REFRESHING                  1032
 #define IDC_SENDANI                     1033
 #define IDC_EMOTIONANI                  1034
+#define IDC_EMOJILIST                   1034
+#define IDC_EMOJIADD                    1035
+#define IDC_ADDEMOJISTATICTEXT          1037
+#define IDC_ADDEMOJIEDIT                1038
+#define IDC_MODIFYCANCEL                1039
+#define IDC_MODIFYEDIT                  1040
+#define IDC_MODIFYDLGSTATICTEXT         1041
 #define WM_SEND_FILE_DONE               1101
 #define WM_SEND_FILE_ERROR              1102
 #define WM_SEND_MESSAGE_ERROR           1103
@@ -46,15 +56,14 @@
 #define WM_RECEIVE_TOC                  1112
 #define WM_BROADCAST_TIC_ERROR          1113
 #define WM_RECEIVE_TIC_ERROR            1114
-#define ID_ACCELERATOR_SEND             32771
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        139
+#define _APS_NEXT_RESOURCE_VALUE        145
 #define _APS_NEXT_COMMAND_VALUE         32773
-#define _APS_NEXT_CONTROL_VALUE         1034
+#define _APS_NEXT_CONTROL_VALUE         1042
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
