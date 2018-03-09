@@ -72,9 +72,13 @@ void SendMessageToIp(const char * message, const char * ip)
 
 void refreshUserList()
 {
+	char myName[128];
+	gethostname(myName, 128);
+	struct hostent *pHost = gethostbyname(myName);
 	{
 		std::lock_guard<std::mutex> lk(l_AllUserMutex);
 		l_AllUser.clear();
+		l_AllUser[inet_ntoa(*(struct in_addr*)(pHost->h_addr_list[0]))] = myName;
 	}
 	std::thread ticThread(inner_network::broadcastTic, BROADCAST_RECV_PORT);
 	ticThread.detach();
