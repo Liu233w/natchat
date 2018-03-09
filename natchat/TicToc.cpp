@@ -30,13 +30,10 @@ namespace inner_network
 
 	void handleToc(const std::string& msg, const char * ip)
 	{
-		{
-			std::lock_guard<std::mutex> lk(l_AllUserMutex);
-			l_AllUser[ip] = msg.substr(1);
-		}
+		std::lock_guard<std::mutex> lk(l_AllUserMutex);
+		l_AllUser[ip] = msg.substr(1);
 
-		// 保证内存安全，这里必须用 send
-		SendMessage(g_hHWnd, WM_RECEIVE_TOC, NULL, (LPARAM)ip);
+		PostMessage(g_hHWnd, WM_RECEIVE_TOC, NULL, NULL);
 	}
 
 	void startTicLoop(const int port)
