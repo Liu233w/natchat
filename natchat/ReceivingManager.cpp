@@ -113,10 +113,13 @@ namespace inner_network
 				{
 					buffer[ret] = '\0';
 					res.append(buffer);
-					if (res[res.size() - 1] == '\f')
+					static const size_t MSG_END_SIZE = strlen(MESSAGE_END);
+					if (res.size() > MSG_END_SIZE 
+						&& res.substr(res.size() - MSG_END_SIZE, MSG_END_SIZE) == MESSAGE_END)
 					{
 						// 已经读到结尾
-						res.pop_back();
+						// res.pop_back();
+						res.erase(res.size() - MSG_END_SIZE);
 						break;
 					}
 				}

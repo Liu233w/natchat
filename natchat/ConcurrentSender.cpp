@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ConcurrentSender.h"
+#include "ChatService.h"
 
 #include <cstdlib>
 #include <chrono>
@@ -59,7 +60,7 @@ namespace inner_network
 		}
 
 		send(sclient, this->buffer, this->bufferSize, 0);
-		send(sclient, "\f", 1, 0);
+		send(sclient, MESSAGE_END, strlen(MESSAGE_END), 0);
 		
 		closesocket(sclient);
 		return true;

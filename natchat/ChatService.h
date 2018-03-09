@@ -136,3 +136,8 @@ static void cstring2string(CString & src, std::string & dst) {
 /// 保存文件的位置，在 File 命令的处理函数里面给这个变量赋值，函数结束之后就能将文件保存在这个位置了。
 /// </summary>
 extern std::wstring g_wsSaveFilePath;
+
+/// <summary>
+/// 设定消息的结尾
+/// </summary>
+static const char* MESSAGE_END = "\r\n--/\fEndMsg\f/--\r\n";
