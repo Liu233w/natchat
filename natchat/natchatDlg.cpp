@@ -472,6 +472,7 @@ LRESULT CnatchatDlg::OnRecommendRefreshHistories(WPARAM wParam, LPARAM lParam)
 	}
 	SetDlgItemText(IDC_EDIT1, show_txt);
 	show_history.LineScroll(show_history.GetLineCount());
+	this->FlashWindow(TRUE);
 	return 0;
 }
 
@@ -540,6 +541,7 @@ void CnatchatDlg::OnBnClickedSendfile()
 
 afx_msg LRESULT CnatchatDlg::OnReceiveFile(WPARAM wParam, LPARAM lParam)
 {
+	this->FlashWindow(TRUE);
 	g_wsSaveFilePath = L"";
 	if (IDYES == AfxMessageBox(_T("您收到一个文件，是否接收？"), MB_YESNO)) {
 		CFileDialog dlg(FALSE, _T("."), (wchar_t *)lParam);
