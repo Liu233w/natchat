@@ -111,8 +111,7 @@ namespace inner_network
 				int ret = recv(sClient, buffer, 255, 0);
 				if (ret > 0)
 				{
-					buffer[ret] = '\0';
-					res.append(buffer);
+					res.append(buffer, buffer + ret);
 					static const size_t MSG_END_SIZE = strlen(MESSAGE_END);
 					if (res.size() > MSG_END_SIZE 
 						&& res.substr(res.size() - MSG_END_SIZE, MSG_END_SIZE) == MESSAGE_END)
