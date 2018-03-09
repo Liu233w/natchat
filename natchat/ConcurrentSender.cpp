@@ -59,8 +59,20 @@ namespace inner_network
 			return false;
 		}
 
-		send(sclient, this->buffer, this->bufferSize, 0);
-		send(sclient, MESSAGE_END, strlen(MESSAGE_END), 0);
+		size_t begin_s = 0;
+		while (begin_s < this->bufferSize)
+		{
+			size_t sended_len = send(sclient, this->buffer + begin_s, this->bufferSize - begin_s, 0);
+			begin_s += sended_len;
+		}
+
+		begin_s = 0;
+		const size_t MSG_END_LEN = strlen(MESSAGE_END);
+		while (begin_s < MSG_END_LEN)
+		{
+			size_t sended_len = send(sclient, MESSAGE_END + begin_s, MSG_END_LEN - begin_s, 0);
+			begin_s += sended_len;
+		}
 		
 		closesocket(sclient);
 		return true;
